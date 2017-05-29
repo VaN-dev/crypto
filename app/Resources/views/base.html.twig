@@ -3,7 +3,14 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+        {% stylesheets
+        filter="compass"
+        "@AppBundle/Resources/public/compass/*.scss"
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+        <link rel="stylesheet" href="{{ asset('bundles/app/vendor/cryptocoins/cryptocoins.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/app/vendor/cryptocoins/cryptocoins-colors.css') }}">
+        {% endstylesheets %}
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>

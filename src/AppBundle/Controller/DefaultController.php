@@ -63,6 +63,7 @@ class DefaultController extends Controller
 
         $bistamp = new Client(["base_uri" => "https://www.bitstamp.net/api/v2/"]);
         $kraken = new Client(["base_uri" => "https://api.kraken.com/0/public/"]);
+        $btce = new Client(["base_uri" => "https://btc-e.com/api/3/"]);
 //        $poloniex = new Client(["base_uri" => "https://poloniex.com/public/"]);
 
 //        dump(json_decode((string) $poloniex->request("GET", "?command=returnTicker")->getBody()));
@@ -74,16 +75,37 @@ class DefaultController extends Controller
 
         $data = [
             'bitcoin' => [
-                'bitstamp' => json_decode((string) $bistamp->request("GET", "ticker/btceur/")->getBody())->last,
+                'config' => [
+                    'class' => 'BTC',
+                ],
+                'providers' => [
+                    'bitstamp' => json_decode((string) $bistamp->request("GET", "ticker/btceur/")->getBody())->last,
+                    'btc-e' => json_decode((string) $btce->request("GET", "ticker/btc_eur")->getBody())->btc_eur->last,
+                ],
             ],
             'ripple' => [
-                'bitstamp' => json_decode((string) $bistamp->request("GET", "ticker/xrpeur/")->getBody())->last,
-                'kraken' => json_decode((string) $kraken->request("GET", "Ticker?pair=XXRPZEUR")->getBody())->result->XXRPZEUR->c[0],
+                'config' => [
+                    'class' => 'XRP',
+                ],
+                'providers' => [
+                    'bitstamp' => json_decode((string) $bistamp->request("GET", "ticker/xrpeur/")->getBody())->last,
+                    'kraken' => json_decode((string) $kraken->request("GET", "Ticker?pair=XXRPZEUR")->getBody())->result->XXRPZEUR->c[0],
+                ],
             ],
             'ethereum' => [
-                'kraken' => json_decode((string) $kraken->request("GET", "Ticker?pair=XETHZEUR")->getBody())->result->XETHZEUR->c[0],
+                'config' => [
+                    'class' => 'ETH',
+                ],
+                'providers' => [
+                    'kraken' => json_decode((string) $kraken->request("GET", "Ticker?pair=XETHZEUR")->getBody())->result->XETHZEUR->c[0],
+                    'btc-e' => json_decode((string) $btce->request("GET", "ticker/eth_eur")->getBody())->eth_eur->last,
+                ],
             ],
         ];
+
+        foreach ($data as $coin_name => &$coin_data) {
+            asort($coin_data['providers']);
+        }
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [

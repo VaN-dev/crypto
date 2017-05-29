@@ -4,17 +4,17 @@
     <h1>Crypto</h1>
 
     <div class="row">
-        {% for coin, platforms in data %}
+        {% for coin_name, coin_data in data %}
             <div class="col-xs-12 col-sm-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{ coin }}</h3>
+                        <h3 class="panel-title"><i class="cc {{ coin_data.config.class }}"></i> {{ coin_name }}</h3>
                     </div>
                     <ul class="list-group">
-                        {% for platform, value in platforms %}
+                        {% for provider, value in coin_data.providers %}
                         <li class="list-group-item">
-                            {{ platform }}
-                            <span class="pull-right">EUR {{ value |number_format(4, '.', ',') }}</span>
+                            {{ provider }}
+                            <span class="pull-right">EUR {{ value | number_format(4, '.', ',') }}</span>
                         </li>
                         {% endfor %}
                     </ul>
