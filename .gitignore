@@ -15,5 +15,6 @@
 /vendor/
 /web/bundles/
 /web/assets/
+/web/css/
 .idea/
 _resources/
