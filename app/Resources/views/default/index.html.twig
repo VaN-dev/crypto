@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Crypto</h1>
+
+    <div class="row">
+        {% for coin, platforms in data %}
+            <div class="col-xs-12 col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ coin }}</h3>
+                    </div>
+                    <ul class="list-group">
+                        {% for platform, value in platforms %}
+                        <li class="list-group-item">
+                            {{ platform }}
+                            <span class="pull-right">EUR {{ value |number_format(4, '.', ',') }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
