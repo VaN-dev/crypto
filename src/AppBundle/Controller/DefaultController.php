@@ -14,6 +14,20 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $markets = $this->getDoctrine()->getRepository("AppBundle:Market")->findAll();
+        $currencies = $this->getDoctrine()->getRepository("AppBundle:Currency")->findAll();
+
+        $output = [];
+
+        foreach ($currencies as $currency) {
+            $output[$currency->getName()] = [
+                'config' => [
+                    'class' => $currency->getSymbol(),
+                ],
+                'providers' => [],
+            ];
+        }
+
 //        $providers = [
 //            'bitstamp' => [
 //                'api_url' => 'https://www.bitstamp.net/api/v2/ticker/',
@@ -79,7 +93,7 @@ class DefaultController extends Controller
                     'class' => 'BTC',
                 ],
                 'providers' => [
-                    'bitstamp' => json_decode((string) $bistamp->request("GET", "ticker/btceur/")->getBody())->last,
+                    'bitstamp' => json_decode((string) $bistamp->request("GET", "ticker/btceur")->getBody())->last,
                     'btc-e' => json_decode((string) $btce->request("GET", "ticker/btc_eur")->getBody())->btc_eur->last,
                 ],
             ],
@@ -88,7 +102,7 @@ class DefaultController extends Controller
                     'class' => 'XRP',
                 ],
                 'providers' => [
-                    'bitstamp' => json_decode((string) $bistamp->request("GET", "ticker/xrpeur/")->getBody())->last,
+                    'bitstamp' => json_decode((string) $bistamp->request("GET", "ticker/xrpeur")->getBody())->last,
                     'kraken' => json_decode((string) $kraken->request("GET", "Ticker?pair=XXRPZEUR")->getBody())->result->XXRPZEUR->c[0],
                 ],
             ],

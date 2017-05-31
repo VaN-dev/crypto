@@ -36,18 +36,12 @@ class Ticker
     private $marketId;
 
     /**
-     * @var int
+     * @var Pair
      *
-     * @ORM\Column(name="source_currency_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pair")
+     * @ORM\JoinColumn(name="pair_id", nullable=false)
      */
-    private $sourceCurrencyId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="target_currency_id", type="integer")
-     */
-    private $targetCurrencyId;
+    private $pair;
 
     /**
      * @var string
@@ -116,51 +110,27 @@ class Ticker
     }
 
     /**
-     * Set sourceCurrencyId
+     * Set pair
      *
-     * @param integer $sourceCurrencyId
+     * @param integer $pair
      *
      * @return Ticker
      */
-    public function setSourceCurrencyId($sourceCurrencyId)
+    public function setPair($pair)
     {
-        $this->sourceCurrencyId = $sourceCurrencyId;
+        $this->pair = $pair;
 
         return $this;
     }
 
     /**
-     * Get sourceCurrencyId
+     * Get pair
      *
-     * @return int
+     * @return Pair
      */
-    public function getSourceCurrencyId()
+    public function getPair()
     {
-        return $this->sourceCurrencyId;
-    }
-
-    /**
-     * Set targetCurrencyId
-     *
-     * @param integer $targetCurrencyId
-     *
-     * @return Ticker
-     */
-    public function setTargetCurrencyId($targetCurrencyId)
-    {
-        $this->targetCurrencyId = $targetCurrencyId;
-
-        return $this;
-    }
-
-    /**
-     * Get targetCurrencyId
-     *
-     * @return int
-     */
-    public function getTargetCurrencyId()
-    {
-        return $this->targetCurrencyId;
+        return $this->pair;
     }
 
     /**
