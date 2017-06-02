@@ -42,6 +42,13 @@ class Currency
      */
     private $icon;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="parsable", type="boolean")
+     */
+    private $parsable;
+
 
     /**
      * Get id
@@ -124,5 +131,27 @@ class Currency
     {
         return $this->icon;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isParsable()
+    {
+        return $this->parsable;
+    }
+
+    /**
+     * @param boolean $parsable
+     *
+     * @return Currency
+     */
+    public function setParsable($parsable)
+    {
+        $this->parsable = $parsable;
+
+        return $this;
+    }
+
+
 }
 

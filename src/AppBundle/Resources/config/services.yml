@@ -1,0 +1,9 @@
+services:
+    app.market.api_client.bitstamp:
+        class: AppBundle\Service\Market\ApiClient\Bitstamp
+
+    app.market.api_client.btce:
+        class: AppBundle\Service\Market\ApiClient\Btce
+
+    app.market.api_client.kraken:
+        class: AppBundle\Service\Market\ApiClient\Kraken

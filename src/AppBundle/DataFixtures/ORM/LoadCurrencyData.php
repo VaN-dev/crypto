@@ -23,6 +23,7 @@ class LoadCurrencyData extends AbstractFixture implements OrderedFixtureInterfac
             ->setName('Euro')
             ->setSymbol('EUR')
             ->setIcon('EUR')
+            ->setParsable(false)
         ;
         $manager->persist($currency01);
 
@@ -31,6 +32,7 @@ class LoadCurrencyData extends AbstractFixture implements OrderedFixtureInterfac
             ->setName('US Dollar')
             ->setSymbol('USD')
             ->setIcon('USD')
+            ->setParsable(false)
         ;
         $manager->persist($currency02);
 
@@ -39,6 +41,7 @@ class LoadCurrencyData extends AbstractFixture implements OrderedFixtureInterfac
             ->setName('Bitcoin')
             ->setSymbol('BTC')
             ->setIcon('BTC')
+            ->setParsable(true)
         ;
         $manager->persist($currency03);
 
@@ -47,6 +50,7 @@ class LoadCurrencyData extends AbstractFixture implements OrderedFixtureInterfac
             ->setName('Ripple')
             ->setSymbol('XRP')
             ->setIcon('XRP')
+            ->setParsable(true)
         ;
         $manager->persist($currency04);
 
@@ -55,6 +59,7 @@ class LoadCurrencyData extends AbstractFixture implements OrderedFixtureInterfac
             ->setName('Ethereum')
             ->setSymbol('ETH')
             ->setIcon('ETH')
+            ->setParsable(true)
         ;
         $manager->persist($currency05);
 
