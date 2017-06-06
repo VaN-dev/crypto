@@ -39,6 +39,22 @@ class Pair
 
 
     /**
+     * CUSTOM METHODS
+     */
+
+    /**
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->sourceCurrency->getSymbol() . $this->targetCurrency->getSymbol();
+    }
+
+    /**
+     * GETTERS & SETTERS
+     */
+
+    /**
      * Get id
      *
      * @return int

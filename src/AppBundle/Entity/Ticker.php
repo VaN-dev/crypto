@@ -29,11 +29,12 @@ class Ticker
     private $createdAt;
 
     /**
-     * @var int
+     * @var Market
      *
-     * @ORM\Column(name="market_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Market")
+     * @ORM\JoinColumn(name="market_id", nullable=false)
      */
-    private $marketId;
+    private $market;
 
     /**
      * @var Pair
@@ -50,6 +51,14 @@ class Ticker
      */
     private $value;
 
+
+    /**
+     * Ticker constructor.
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     /**
      * Get id
@@ -86,27 +95,27 @@ class Ticker
     }
 
     /**
-     * Set marketId
+     * Set market
      *
-     * @param integer $marketId
+     * @param Market $market
      *
      * @return Ticker
      */
-    public function setMarketId($marketId)
+    public function setMarket(Market $market)
     {
-        $this->marketId = $marketId;
+        $this->market = $market;
 
         return $this;
     }
 
     /**
-     * Get marketId
+     * Get market
      *
-     * @return int
+     * @return Market
      */
-    public function getMarketId()
+    public function getMarket()
     {
-        return $this->marketId;
+        return $this->market;
     }
 
     /**

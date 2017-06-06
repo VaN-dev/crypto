@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service\Market\ApiClient;
 
+use AppBundle\Entity\Pair;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 
@@ -27,22 +28,22 @@ class Bitstamp implements ApiClientInterface
     }
 
     /**
-     * @param string $pair
+     * @param Pair  $pair
      * @return string
      */
-    public function formatPair($pair)
+    public function formatPair(Pair $pair)
     {
-        return $pair;
+        return mb_strtolower($pair->getSourceCurrency()->getSymbol() . $pair->getTargetCurrency()->getSymbol());
     }
 
     /**
-     * @param string $pair
+     * @param Pair  $pair
      * @return float
      */
-    public function getTicker($pair)
+    public function getTicker(Pair $pair)
     {
         $pair_str = $this->formatPair($pair);
 
-        return json_decode((string) $this->client->request("GET", "ticker/" . $pair_str)->getBody())->last;
+        return (float) json_decode((string) $this->client->request("GET", "ticker/" . $pair_str)->getBody())->last;
     }
 }

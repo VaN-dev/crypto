@@ -31,9 +31,23 @@ class Market
     /**
      * @var string
      *
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     */
+    private $slug;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="api_url", type="string", length=255, nullable=true, unique=true)
      */
     private $apiUrl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="chart_url", type="string", length=255, nullable=true, unique=true)
+     */
+    private $chartUrl;
 
 
     /**
@@ -71,6 +85,26 @@ class Market
     }
 
     /**
+     * @param string $slug
+     *
+     * @return Market
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
      * Set apiUrl
      *
      * @param string $apiUrl
@@ -92,6 +126,26 @@ class Market
     public function getApiUrl()
     {
         return $this->apiUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChartUrl()
+    {
+        return $this->chartUrl;
+    }
+
+    /**
+     * @param string $chartUrl
+     *
+     * @return Market
+     */
+    public function setChartUrl($chartUrl)
+    {
+        $this->chartUrl = $chartUrl;
+
+        return $this;
     }
 }
 

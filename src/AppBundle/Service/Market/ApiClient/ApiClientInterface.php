@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Service\Market\ApiClient;
+use AppBundle\Entity\Pair;
 
 /**
  * Interface ApiClientInterface
@@ -9,14 +10,14 @@ namespace AppBundle\Service\Market\ApiClient;
 interface ApiClientInterface
 {
     /**
-     * @param string $pair
+     * @param Pair $pair
      * @return string
      */
-    public function formatPair($pair);
+    public function formatPair(Pair $pair);
 
     /**
-     * @param string $pair
+     * @param Pair $pair
      * @return float
      */
-    public function getTicker($pair);
+    public function getTicker(Pair $pair);
 }

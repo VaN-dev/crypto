@@ -4,17 +4,23 @@
     <h1>Crypto</h1>
 
     <div class="row">
-        {% for coin_name, coin_data in data %}
+        {% for row in output %}
             <div class="col-xs-12 col-sm-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="cc {{ coin_data.config.class }}"></i> {{ coin_name }}</h3>
+                        <h3 class="panel-title"><i class="cc {{ row.pair.sourceCurrency.symbol }}"></i> {{ row.pair.sourceCurrency.name }}</h3>
                     </div>
                     <ul class="list-group">
-                        {% for provider, value in coin_data.providers %}
+                        {% for data in row.data %}
                         <li class="list-group-item">
-                            {{ provider }}
-                            <span class="pull-right">EUR {{ value | number_format(4, '.', ',') }}</span>
+                            {% if data.market.chartUrl is not null %}
+                                <a href="{{ data.market.chartUrl }}{{ data.pairSlug }}" target="_blank">
+                            {% endif %}
+                            {{ data.market.name }}
+                            {% if data.market.chartUrl is not null %}
+                                </a>
+                            {% endif %}
+                            <span class="pull-right">{{ row.pair.targetCurrency.symbol }} {{ data.value | number_format(4, '.', ',') }}</span>
                         </li>
                         {% endfor %}
                     </ul>

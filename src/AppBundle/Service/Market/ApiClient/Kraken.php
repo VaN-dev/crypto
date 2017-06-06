@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service\Market\ApiClient;
 
+use AppBundle\Entity\Pair;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 
@@ -27,20 +28,22 @@ class Kraken implements ApiClientInterface
     }
 
     /**
-     * @param string $pair
+     * @param Pair $pair
      * @return string
      */
-    public function formatPair($pair)
+    public function formatPair(Pair $pair)
     {
-        return $pair;
+        return mb_strtoupper("X" . $pair->getSourceCurrency()->getSymbol() . "Z" . $pair->getTargetCurrency()->getSymbol());
     }
 
     /**
-     * @param string $pair
+     * @param Pair $pair
      * @return float
      */
-    public function getTicker($pair)
+    public function getTicker(Pair $pair)
     {
-        return json_decode((string) $this->client->request("GET", "Ticker?pair=" . $pair)->getBody())->result->{$pair}->c[0];
+        $pair_str = $this->formatPair($pair);
+
+        return (float) json_decode((string) $this->client->request("GET", "Ticker?pair=" . $pair_str)->getBody())->result->{$pair_str}->c[0];
     }
 }
