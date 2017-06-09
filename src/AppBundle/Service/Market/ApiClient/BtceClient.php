@@ -32,6 +32,8 @@ class BtceClient implements ApiClientInterface
      */
     protected $noonce;
 
+    protected $nonce;
+
     /**
      * @var ClientInterface
      */
@@ -40,9 +42,16 @@ class BtceClient implements ApiClientInterface
     /**
      * Bitstamp constructor.
      */
-    public function __construct()
+    public function __construct($base_noonce = false)
     {
         $this->client = new Client(["base_uri" => $this->base_uri]);
+
+        if($base_noonce === false) {
+            // Try 1?
+            $this->noonce = time();
+        } else {
+            $this->noonce = $base_noonce;
+        }
     }
 
     /**
@@ -73,32 +82,81 @@ class BtceClient implements ApiClientInterface
         return (float) json_decode((string) $this->client->request("GET", "ticker/" . $pair_str)->getBody())->{$pair_str}->last;
     }
 
-    /**
-     * @return mixed
-     */
+//    /**
+//     * @return mixed
+//     */
+//    public function getBalance()
+//    {
+//        $req['method'] = "getInfo";
+//        $mt = $this->getnoonce();
+//        $req['nonce'] = $mt[1];
+//
+//        // generate the POST data string
+//        $post_data = http_build_query($req, '', '&');
+//
+//        // Generate the keyed hash value to post
+//        $sign = hash_hmac("sha512", $post_data, $this->secret);
+////
+////        // Add to the headers
+//        $headers = array(
+//            'Sign: '.$sign,
+//            'Key: '.$this->key,
+//        );
+//
+////
+//        $auth = json_decode((string) $this->client->request("POST", "https://btc-e.com/tapi/getInfo", ["headers" => $headers, "body" => $post_data])->getBody());
+////
+//        dump($auth);
+//        die();
+//
+//        return json_decode((string) $this->client->request("GET", "https://btc-e.com/tapi/getInfo")->getBody());
+//    }
+
     public function getBalance()
     {
-        $req['method'] = "GET";
-        $mt = $this->getnoonce();
-        $req['nonce'] = $mt[1];
-
+        if(!$this->nonce) {
+            $nonce = explode(' ', microtime());
+            $this->nonce = + $nonce[1].($nonce[0] * 1000000);
+            $this->nonce = substr($this->nonce,5);
+            $this->nonce = explode(' ', microtime())[1];
+        } else {
+            $this->nonce ++ ;
+        }
+        $params['nonce'] = $this->nonce;
+        $params['method'] = "getInfo";
         // generate the POST data string
-        $post_data = http_build_query($req, '', '&');
-
-        // Generate the keyed hash value to post
-        $sign = hash_hmac("sha512", $post_data, $this->secret);
-
-        // Add to the headers
-        $headers = array(
+        $post_data = http_build_query($params, '', '&');
+        $sign = hash_hmac('sha512', $post_data, $this->secret);
+        $headers = [
             'Sign: '.$sign,
             'Key: '.$this->key,
-        );
+        ];
+        static $ch = null;
+        if (is_null($ch)) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; BTCE PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
+        }
+        curl_setopt($ch, CURLOPT_URL, 'https://btc-e.com/tapi/');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        // run the query
+        $res = curl_exec($ch);
+        if ($res === false) throw new \Exception('Could not get reply: '.curl_error($ch));
+        $dec = json_decode($res, true);
+        if (!$dec) throw new \Exception('Invalid data received, please make sure connection is working and requested API exists');
+        if($dec['success'] == 0) {
+            throw new \Exception($dec['error']);
+        }
 
-        $auth = json_decode((string) $this->client->request("POST", "https://btc-e.com/tapi/", ["headers" => $headers, "body" => $post_data])->getBody());
+        // ajout david
+        foreach ($dec['return']['funds'] as $k => $fund) {
+            if ($fund == 0) {
+                unset($dec['return']['funds'][$k]);
+            }
+        }
 
-        dump($auth);
-        die();
-
-        return json_decode((string) $this->client->request("GET", "getInfo")->getBody());
+        return $dec['return']['funds'];
     }
 }

@@ -3,7 +3,9 @@
 {% block body %}
     <h1>Crypto</h1>
 
+
     <h2>Tickers</h2>
+
     <div class="row">
         {% for ticker in tickers %}
             <div class="col-xs-12 col-sm-3">
@@ -30,6 +32,27 @@
         {% endfor %}
     </div>
 
+
     <h2>Balances</h2>
+
+    <div class="row">
+        {% for market, balance in balances %}
+            <div class="col-xs-12 col-sm-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ market }}</h3>
+                    </div>
+                    <ul class="list-group">
+                        {% for currency, fund in balance %}
+                            <li class="list-group-item">
+                                {{ currency | upper }}
+                                <span class="pull-right">{{ fund | number_format(4, '.', ',') }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
 

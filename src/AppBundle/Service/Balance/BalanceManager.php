@@ -45,12 +45,9 @@ class BalanceManager
             if (null !== $client) {
                 $entry = $client->getBalance();
 
-                $output[] = $entry;
+                $output[$market->getName()] = $entry;
             }
         }
-
-        dump($output);
-        die();
 
         return $output;
     }
