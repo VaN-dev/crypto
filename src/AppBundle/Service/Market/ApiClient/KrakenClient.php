@@ -7,12 +7,12 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 
 /**
- * Class Kraken
+ * Class KrakenClient
  * @package AppBundle\Service\Market\ApiClient
  */
-class Kraken implements ApiClientInterface
+class KrakenClient implements ApiClientInterface
 {
-    private $base_uri = "https://api.kraken.com/0/public/";
+    private $base_uri = "https://api.kraken.com/0/";
 
     /**
      * @var ClientInterface
@@ -44,6 +44,6 @@ class Kraken implements ApiClientInterface
     {
         $pair_str = $this->formatPair($pair);
 
-        return (float) json_decode((string) $this->client->request("GET", "Ticker?pair=" . $pair_str)->getBody())->result->{$pair_str}->c[0];
+        return (float) json_decode((string) $this->client->request("GET", "public/Ticker?pair=" . $pair_str)->getBody())->result->{$pair_str}->c[0];
     }
 }

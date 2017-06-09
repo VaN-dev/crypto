@@ -20,4 +20,5 @@ interface ApiClientInterface
      * @return float
      */
     public function getTicker(Pair $pair);
+
 }

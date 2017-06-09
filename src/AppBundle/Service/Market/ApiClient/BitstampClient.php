@@ -7,10 +7,10 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 
 /**
- * Class Bitstamp
+ * Class BitstampClient
  * @package AppBundle\Service\Market\ApiClient
  */
-class Bitstamp implements ApiClientInterface
+class BitstampClient implements ApiClientInterface
 {
     private $base_uri = "https://www.bitstamp.net/api/v2/";
 

@@ -3,15 +3,16 @@
 {% block body %}
     <h1>Crypto</h1>
 
+    <h2>Tickers</h2>
     <div class="row">
-        {% for row in output %}
-            <div class="col-xs-12 col-sm-4">
+        {% for ticker in tickers %}
+            <div class="col-xs-12 col-sm-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="cc {{ row.pair.sourceCurrency.symbol }}"></i> {{ row.pair.sourceCurrency.name }}</h3>
+                        <h3 class="panel-title"><i class="cc {{ ticker.pair.sourceCurrency.symbol }}"></i> {{ ticker.pair.sourceCurrency.name }}</h3>
                     </div>
                     <ul class="list-group">
-                        {% for data in row.data %}
+                        {% for data in ticker.data %}
                         <li class="list-group-item">
                             {% if data.market.chartUrl is not null %}
                                 <a href="{{ data.market.chartUrl }}{{ data.pairSlug }}" target="_blank">
@@ -20,7 +21,7 @@
                             {% if data.market.chartUrl is not null %}
                                 </a>
                             {% endif %}
-                            <span class="pull-right">{{ row.pair.targetCurrency.symbol }} {{ data.value | number_format(4, '.', ',') }}</span>
+                            <span class="pull-right">{{ ticker.pair.targetCurrency.symbol }} {{ data.value | number_format(4, '.', ',') }}</span>
                         </li>
                         {% endfor %}
                     </ul>
@@ -28,5 +29,7 @@
             </div>
         {% endfor %}
     </div>
+
+    <h2>Balances</h2>
 {% endblock %}
 

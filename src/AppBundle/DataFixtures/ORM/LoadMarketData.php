@@ -43,11 +43,20 @@ class LoadMarketData extends AbstractFixture implements OrderedFixtureInterface
         ;
         $manager->persist($market03);
 
+        $market04 = new Market();
+        $market04
+            ->setName('Xbtce')
+            ->setSlug('xbtce')
+            ->setApiUrl('https://cryptottlivewebapi.xbtce.net:8443/api/v1/')
+        ;
+        $manager->persist($market04);
+
         $manager->flush();
 
         $this->addReference('market-bitstamp', $market01);
         $this->addReference('market-kraken', $market02);
         $this->addReference('market-btce', $market03);
+        $this->addReference('market-xbtce', $market04);
     }
 
     public function getOrder()

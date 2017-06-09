@@ -1,9 +1,20 @@
 services:
     app.market.api_client.bitstamp:
-        class: AppBundle\Service\Market\ApiClient\Bitstamp
+        class: AppBundle\Service\Market\ApiClient\BitstampClient
 
     app.market.api_client.btce:
-        class: AppBundle\Service\Market\ApiClient\Btce
+        class: AppBundle\Service\Market\ApiClient\BtceClient
 
     app.market.api_client.kraken:
-        class: AppBundle\Service\Market\ApiClient\Kraken
+        class: AppBundle\Service\Market\ApiClient\KrakenClient
+
+
+    app.ticker.manager:
+        class: AppBundle\Service\Ticker\TickerManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
+
+    app.balance.manager:
+        class: AppBundle\Service\Balance\BalanceManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
