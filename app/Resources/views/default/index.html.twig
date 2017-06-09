@@ -3,56 +3,74 @@
 {% block body %}
     <h1>Crypto</h1>
 
-
-    <h2>Tickers</h2>
-
     <div class="row">
-        {% for ticker in tickers %}
-            <div class="col-xs-12 col-sm-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="cc {{ ticker.pair.sourceCurrency.symbol }}"></i> {{ ticker.pair.sourceCurrency.name }}</h3>
+        <div class="col-sm-10">
+
+            <h2>Tickers</h2>
+
+            <div class="row">
+                {% for ticker in tickers %}
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="cc {{ ticker.pair.sourceCurrency.symbol }}"></i> {{ ticker.pair.sourceCurrency.name }}</h3>
+                            </div>
+                            <ul class="list-group">
+                                {% for data in ticker.data %}
+                                    <li class="list-group-item">
+                                        {% if data.market.chartUrl is not null %}
+                                        <a href="{{ data.market.chartUrl }}{{ data.pairSlug }}" target="_blank">
+                                            {% endif %}
+                                            {{ data.market.name }}
+                                            {% if data.market.chartUrl is not null %}
+                                        </a>
+                                        {% endif %}
+                                        <span class="pull-right">{{ ticker.pair.targetCurrency.symbol }} {{ data.value | number_format(4, '.', ',') }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
-                    <ul class="list-group">
-                        {% for data in ticker.data %}
-                        <li class="list-group-item">
-                            {% if data.market.chartUrl is not null %}
-                                <a href="{{ data.market.chartUrl }}{{ data.pairSlug }}" target="_blank">
-                            {% endif %}
-                            {{ data.market.name }}
-                            {% if data.market.chartUrl is not null %}
-                                </a>
-                            {% endif %}
-                            <span class="pull-right">{{ ticker.pair.targetCurrency.symbol }} {{ data.value | number_format(4, '.', ',') }}</span>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+
+
+            <h2>Balances</h2>
+
+            <div class="row">
+                {% for market, balance in balances %}
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">{{ market }}</h3>
+                            </div>
+                            <ul class="list-group">
+                                {% for currency, fund in balance %}
+                                    <li class="list-group-item">
+                                        {{ currency | upper }}
+                                        <span class="pull-right">{{ fund | number_format(4, '.', ',') }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        <div class="col-sm-2">
+
+            <h2>Todo</h2>
+
+            <ul>
+                <li>CRUD Market</li>
+                <li>CRUD Currency</li>
+                <li>CRUD Pair</li>
+                <li>CRUD MarketPair</li>
+            </ul>
+
+        </div>
     </div>
 
-
-    <h2>Balances</h2>
-
-    <div class="row">
-        {% for market, balance in balances %}
-            <div class="col-xs-12 col-sm-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{{ market }}</h3>
-                    </div>
-                    <ul class="list-group">
-                        {% for currency, fund in balance %}
-                            <li class="list-group-item">
-                                {{ currency | upper }}
-                                <span class="pull-right">{{ fund | number_format(4, '.', ',') }}</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
 {% endblock %}
 
