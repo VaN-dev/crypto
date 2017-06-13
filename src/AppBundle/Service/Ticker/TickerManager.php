@@ -3,8 +3,8 @@
 namespace AppBundle\Service\Ticker;
 
 use AppBundle\Entity\Ticker;
+use AppBundle\Service\Market\ApiClient\ApiClientCollection;
 use AppBundle\Service\Market\ApiClient\BitstampClient;
-use AppBundle\Service\Market\ApiClient\BtceClient;
 use AppBundle\Service\Market\ApiClient\KrakenClient;
 use AppBundle\Service\Market\ApiClient\XbtceClient;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,12 +21,20 @@ class TickerManager
     private $em;
 
     /**
+     * @var array
+     */
+    private $clients_collection;
+
+    /**
      * TickerManager constructor.
      * @param EntityManagerInterface $em
+     * @param ApiClientCollection $collection
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ApiClientCollection $collection)
     {
         $this->em = $em;
+        $this->clients_collection = $collection;
+
     }
 
     /**
@@ -57,7 +65,7 @@ class TickerManager
                         $client = new KrakenClient();
                         break;
                     case 'btc-e':
-                        $client = new BtceClient();
+                        $client = $this->clients_collection->getClient('btc-e');
                         break;
                     case 'xbtce':
                         $client = new XbtceClient();

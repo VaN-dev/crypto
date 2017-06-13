@@ -1,11 +1,16 @@
 services:
+    app.market.api_client.collection:
+        class: AppBundle\Service\Market\ApiClient\ApiClientCollection
+
     app.market.api_client.bitstamp:
         class: AppBundle\Service\Market\ApiClient\BitstampClient
 
     app.market.api_client.btce:
         class: AppBundle\Service\Market\ApiClient\BtceClient
         arguments:
-            - [key: "%api.clients.btce.key%", secret: "%api.clients.btce.secret%"]
+            - { key: "%api.clients.btce.key%", secret: "%api.clients.btce.secret%" }
+        tags:
+            - { name: app.api_client, alias: btc-e }
 
     app.market.api_client.kraken:
         class: AppBundle\Service\Market\ApiClient\KrakenClient
@@ -15,8 +20,10 @@ services:
         class: AppBundle\Service\Ticker\TickerManager
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@app.market.api_client.collection"
 
     app.balance.manager:
         class: AppBundle\Service\Balance\BalanceManager
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@app.market.api_client.collection"

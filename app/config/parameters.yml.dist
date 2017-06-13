@@ -24,3 +24,5 @@ parameters:
 
     api.clients.btce.key: ~
     api.clients.btce.secret: ~
+    api.clients.coinbase.key: ~
+    api.clients.coinbase.secret: ~

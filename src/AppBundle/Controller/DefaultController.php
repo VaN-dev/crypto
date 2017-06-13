@@ -20,10 +20,6 @@ class DefaultController extends Controller
         try {
             $tickers = $this->get("app.ticker.manager")->getTickers();
             $balances = $this->get("app.balance.manager")->getBalances();
-
-            dump($tickers);
-            dump($balances);
-            die();
         } catch (\Exception $e) {
             echo $e->getMessage();
             die();
