@@ -101,14 +101,14 @@ class BtceClient implements ApiClientInterface
 
         $response = json_decode((string) $this->client->request("POST", "/tapi", $request)->getBody());
 
-        $arr = (array) $response->return->funds;
+        $output = (array) $response->return->funds;
 
-        foreach ($arr as $k => $fund) {
+        foreach ($output as $k => $fund) {
             if ($fund == 0) {
-                unset($arr[$k]);
+                unset($output[$k]);
             }
         }
 
-        return $arr;
+        return $output;
     }
 }

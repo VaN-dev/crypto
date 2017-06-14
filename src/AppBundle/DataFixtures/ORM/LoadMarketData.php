@@ -51,12 +51,20 @@ class LoadMarketData extends AbstractFixture implements OrderedFixtureInterface
         ;
         $manager->persist($market04);
 
+        $market05 = new Market();
+        $market05
+            ->setName('Coinbase')
+            ->setSlug('coinbase')
+        ;
+        $manager->persist($market05);
+
         $manager->flush();
 
         $this->addReference('market-bitstamp', $market01);
         $this->addReference('market-kraken', $market02);
         $this->addReference('market-btce', $market03);
         $this->addReference('market-xbtce', $market04);
+        $this->addReference('market-coinbase', $market05);
     }
 
     public function getOrder()

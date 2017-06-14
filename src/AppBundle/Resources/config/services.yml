@@ -28,6 +28,14 @@ services:
         tags:
             - { name: app.api_client.ticker, alias: xbtce }
 
+    app.market.api_client.coinbase:
+        class: AppBundle\Service\Market\ApiClient\CoinbaseClient
+        arguments:
+            - { key: "%api.clients.coinbase.key%", secret: "%api.clients.coinbase.secret%" }
+        tags:
+            - { name: app.api_client.ticker, alias: coinbase }
+            - { name: app.api_client.balance, alias: coinbase }
+
     app.ticker.manager:
         class: AppBundle\Service\Ticker\TickerManager
         arguments:

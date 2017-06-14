@@ -90,6 +90,22 @@ class LoadMarketPairData extends AbstractFixture implements OrderedFixtureInterf
         ;
         $manager->persist($marketPair09);
 
+        $marketPair10 = new MarketPair();
+        $marketPair10
+            ->setMarket($this->getReference('market-coinbase'))
+            ->setPair($this->getReference('pair-btceur'))
+
+        ;
+        $manager->persist($marketPair10);
+
+        $marketPair11 = new MarketPair();
+        $marketPair11
+            ->setMarket($this->getReference('market-coinbase'))
+            ->setPair($this->getReference('pair-etheur'))
+
+        ;
+        $manager->persist($marketPair11);
+
         $manager->flush();
 
 

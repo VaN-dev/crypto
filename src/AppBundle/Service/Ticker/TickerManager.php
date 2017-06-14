@@ -81,7 +81,9 @@ class TickerManager
         }
 
         foreach ($output as &$row) {
-            arsort($row["data"]);
+            usort($row["data"], function($a, $b) {
+                return $b['value'] - $a['value'];
+            });
         }
 
         return $output;

@@ -46,20 +46,12 @@ class CoinbaseClient implements ApiClientInterface
     }
 
     /**
-     * @return int
-     */
-    protected function getNonce()
-    {
-        return (int)bcmul(bcadd((string)time(), substr(microtime(), 0, 3), 1), '10') - 13e9;
-    }
-
-    /**
      * @param Pair $pair
      * @return string
      */
     public function formatPair(Pair $pair)
     {
-        return mb_strtolower($pair->getSourceCurrency()->getSymbol() . "_" . $pair->getTargetCurrency()->getSymbol());
+        return mb_strtoupper($pair->getSourceCurrency()->getSymbol() . "-" . $pair->getTargetCurrency()->getSymbol());
     }
 
     /**
@@ -70,7 +62,7 @@ class CoinbaseClient implements ApiClientInterface
     {
         $pair_str = $this->formatPair($pair);
 
-        return (float) json_decode((string) $this->client->request("GET", "/api/3/ticker/" . $pair_str)->getBody())->{$pair_str}->last;
+        return (float) $buyPrice = $this->client->getBuyPrice($pair_str)->getAmount();
     }
 
     /**
@@ -78,33 +70,20 @@ class CoinbaseClient implements ApiClientInterface
      */
     public function getBalance()
     {
-        $body["method"] = "getInfo";
-        $body["nonce"] = $this->getNonce();
+        $output = [];
 
-        // generate the POST data string
-        $post_data = http_build_query($body, '', '&');
+        $accounts = $this->client->getAccounts();
 
-        $headers = [
-            'Sign' => hash_hmac("sha512", $post_data, $this->secret),
-            'Key' => $this->key,
-            'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
-        ];
-
-        $request = [
-            "headers" => $headers,
-            "body" => $post_data,
-        ];
-
-        $response = json_decode((string) $this->client->request("POST", "/tapi", $request)->getBody());
-
-        $arr = (array) $response->return->funds;
-
-        foreach ($arr as $k => $fund) {
-            if ($fund == 0) {
-                unset($arr[$k]);
+        foreach ($accounts as $account) {
+            if (0 != $account->getBalance()->getAmount()) {
+                if (!isset($output[strtolower($account->getCurrency())])) {
+                    $output[strtolower($account->getCurrency())] = (float) $account->getBalance()->getAmount();
+                } else {
+                    $output[strtolower($account->getCurrency())] += $account->getBalance()->getAmount();
+                }
             }
         }
 
-        return $arr;
+        return $output;
     }
 }
