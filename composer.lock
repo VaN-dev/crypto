@@ -4,9 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "18fc52ce17c2facff88a835416886873",
-    "content-hash": "9fb01ca864be63ce16da4015becb0e2c",
+    "hash": "c99a2381bd2f42e478dc2e6c201e82dd",
+    "content-hash": "0f81a05cc5206abec7a1ef869693a773",
     "packages": [
+        {
+            "name": "coinbase/coinbase",
+            "version": "2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/coinbase/coinbase-php.git",
+                "reference": "c06ecd941444ed63ce1a3e2c9a9949a38ed0b101"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coinbase/coinbase-php/zipball/c06ecd941444ed63ce1a3e2c9a9949a38ed0b101",
+                "reference": "c06ecd941444ed63ce1a3e2c9a9949a38ed0b101",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=5.5.0",
+                "psr/http-message": "^1.0",
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Coinbase\\Wallet\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Coinbase API library",
+            "homepage": "http://coinbase.com",
+            "keywords": [
+                "bitcoin",
+                "coinbase"
+            ],
+            "time": "2016-07-26 01:32:38"
+        },
         {
             "name": "composer/ca-bundle",
             "version": "1.0.7",

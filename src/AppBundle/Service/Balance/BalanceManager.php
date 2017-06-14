@@ -2,7 +2,7 @@
 
 namespace AppBundle\Service\Balance;
 
-use AppBundle\Service\Market\ApiClient\ApiClientCollection;
+use AppBundle\Service\Market\ApiClient\AbstractApiClientCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -19,16 +19,17 @@ class BalanceManager
     /**
      * @var array
      */
-    private $clients_collection;
+    private $clientsCollection;
 
     /**
      * BalanceManager constructor.
      * @param EntityManagerInterface $em
+     * @param AbstractApiClientCollection $collection
      */
-    public function __construct(EntityManagerInterface $em, ApiClientCollection $collection)
+    public function __construct(EntityManagerInterface $em, AbstractApiClientCollection $collection)
     {
         $this->em = $em;
-        $this->clients_collection = $collection;
+        $this->clientsCollection = $collection;
     }
 
     /**
@@ -41,13 +42,7 @@ class BalanceManager
         $markets = $this->em->getRepository("AppBundle:Market")->findAll();
 
         foreach ($markets as $market) {
-            switch ($market->getSlug()) {
-                case 'btc-e':
-                    $client = $this->clients_collection->getClient('btc-e');
-                    break;
-                default: $client = null;
-                    break;
-            }
+            $client = $this->clientsCollection->getClient($market->getSlug());
 
             if (null !== $client) {
                 $entry = $client->getBalance();

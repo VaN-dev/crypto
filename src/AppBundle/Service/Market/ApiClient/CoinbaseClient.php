@@ -3,14 +3,14 @@
 namespace AppBundle\Service\Market\ApiClient;
 
 use AppBundle\Entity\Pair;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
+use Coinbase\Wallet\Client;
+use Coinbase\Wallet\Configuration;
 
 /**
- * Class BtceClient
+ * Class CoinbaseClient
  * @package AppBundle\Service\Market\ApiClient
  */
-class BtceClient implements ApiClientInterface
+class CoinbaseClient implements ApiClientInterface
 {
     /**
      * @var string
@@ -28,11 +28,6 @@ class BtceClient implements ApiClientInterface
     protected $secret;
 
     /**
-     * @var int
-     */
-    protected $nonce;
-
-    /**
      * @var ClientInterface
      */
     protected $client;
@@ -46,7 +41,8 @@ class BtceClient implements ApiClientInterface
         $this->key = $params["key"];
         $this->secret = $params["secret"];
 
-        $this->client = new Client(["base_uri" => $this->base_uri]);
+        $configuration = Configuration::apiKey($this->key, $this->secret);
+        $this->client = Client::create($configuration);
     }
 
     /**

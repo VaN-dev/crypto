@@ -3,10 +3,10 @@
 namespace AppBundle\Service\Market\ApiClient;
 
 /**
- * Class ApiClientCollection
+ * Class AbstractApiClientCollection
  * @package AppBundle\Service\Market\ApiClient
  */
-class ApiClientCollection
+abstract class AbstractApiClientCollection
 {
     /**
      * @var array
@@ -39,5 +39,7 @@ class ApiClientCollection
         if (array_key_exists($alias, $this->clients)) {
             return $this->clients[$alias];
         }
+        
+        return null;
     }
 }

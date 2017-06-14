@@ -7,22 +7,22 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class MailTransportPass
+ * Class TickerApiClientCollectionPass
  * @package AppBundle\DependencyInjection\Compiler
  */
-class ApiClientCollectionPass implements CompilerPassInterface
+class TickerApiClientCollectionPass implements CompilerPassInterface
 {
     /**
      * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('app.market.api_client.collection')) {
+        if (!$container->hasDefinition('app.market.api_client.ticker.collection')) {
             return;
         }
 
-        $definition = $container->getDefinition('app.market.api_client.collection');
-        $taggedServices = $container->findTaggedServiceIds('app.api_client');
+        $definition = $container->getDefinition('app.market.api_client.ticker.collection');
+        $taggedServices = $container->findTaggedServiceIds('app.api_client.ticker');
 
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {

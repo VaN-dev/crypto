@@ -1,29 +1,41 @@
 services:
-    app.market.api_client.collection:
-        class: AppBundle\Service\Market\ApiClient\ApiClientCollection
+    app.market.api_client.ticker.collection:
+        class: AppBundle\Service\Market\ApiClient\TickerApiClientCollection
+
+    app.market.api_client.balance.collection:
+            class: AppBundle\Service\Market\ApiClient\BalanceApiClientCollection
 
     app.market.api_client.bitstamp:
         class: AppBundle\Service\Market\ApiClient\BitstampClient
+        tags:
+            - { name: app.api_client.ticker, alias: bitstamp }
 
     app.market.api_client.btce:
         class: AppBundle\Service\Market\ApiClient\BtceClient
         arguments:
             - { key: "%api.clients.btce.key%", secret: "%api.clients.btce.secret%" }
         tags:
-            - { name: app.api_client, alias: btc-e }
+            - { name: app.api_client.ticker, alias: btc-e }
+            - { name: app.api_client.balance, alias: btc-e }
 
     app.market.api_client.kraken:
         class: AppBundle\Service\Market\ApiClient\KrakenClient
+        tags:
+            - { name: app.api_client.ticker, alias: kraken }
 
+    app.market.api_client.xbtce:
+        class: AppBundle\Service\Market\ApiClient\XbtceClient
+        tags:
+            - { name: app.api_client.ticker, alias: xbtce }
 
     app.ticker.manager:
         class: AppBundle\Service\Ticker\TickerManager
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "@app.market.api_client.collection"
+            - "@app.market.api_client.ticker.collection"
 
     app.balance.manager:
         class: AppBundle\Service\Balance\BalanceManager
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "@app.market.api_client.collection"
+            - "@app.market.api_client.balance.collection"

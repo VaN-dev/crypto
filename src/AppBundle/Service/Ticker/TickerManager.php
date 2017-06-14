@@ -3,10 +3,7 @@
 namespace AppBundle\Service\Ticker;
 
 use AppBundle\Entity\Ticker;
-use AppBundle\Service\Market\ApiClient\ApiClientCollection;
-use AppBundle\Service\Market\ApiClient\BitstampClient;
-use AppBundle\Service\Market\ApiClient\KrakenClient;
-use AppBundle\Service\Market\ApiClient\XbtceClient;
+use AppBundle\Service\Market\ApiClient\AbstractApiClientCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -23,17 +20,17 @@ class TickerManager
     /**
      * @var array
      */
-    private $clients_collection;
+    private $clientsCollection;
 
     /**
      * TickerManager constructor.
      * @param EntityManagerInterface $em
-     * @param ApiClientCollection $collection
+     * @param AbstractApiClientCollection $collection
      */
-    public function __construct(EntityManagerInterface $em, ApiClientCollection $collection)
+    public function __construct(EntityManagerInterface $em, AbstractApiClientCollection $collection)
     {
         $this->em = $em;
-        $this->clients_collection = $collection;
+        $this->clientsCollection = $collection;
 
     }
 
@@ -56,23 +53,7 @@ class TickerManager
             $market_pairs = $this->em->getRepository("AppBundle:MarketPair")->findBy(["pair" => $pair]);
 
             foreach ($market_pairs as $market_pair) {
-
-                switch ($market_pair->getMarket()->getSlug()) {
-                    case 'bitstamp':
-                        $client = new BitstampClient();
-                        break;
-                    case 'kraken':
-                        $client = new KrakenClient();
-                        break;
-                    case 'btc-e':
-                        $client = $this->clients_collection->getClient('btc-e');
-                        break;
-                    case 'xbtce':
-                        $client = new XbtceClient();
-                        break;
-                    default: $client = null;
-                        break;
-                }
+                $client = $this->clientsCollection->getClient($market_pair->getMarket()->getSlug());
 
                 if (null === $client) {
                     throw new \Exception('no client found for slug ' . $market_pair->getMarket()->getSlug());
