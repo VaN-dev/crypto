@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Ticker;
 
 /**
  * TickerRepository
@@ -10,4 +11,21 @@ namespace AppBundle\Repository;
  */
 class TickerRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param Ticker $ticker
+     * @return mixed
+     */
+    public function getPreviousTicker(Ticker $ticker)
+    {
+        $qb = $this->createQueryBuilder("t")
+            ->andWhere("t.market = :market")
+            ->andWhere("t.pair = :pair")
+            ->setParameter("market", $ticker->getMarket())
+            ->setParameter("pair", $ticker->getPair())
+            ->orderBy("t.createdAt", "DESC")
+            ->setMaxResults(1)
+        ;
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

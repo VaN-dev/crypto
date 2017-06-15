@@ -59,22 +59,33 @@ class TickerManager
                     throw new \Exception('no client found for slug ' . $market_pair->getMarket()->getSlug());
                 }
 
-                $value = $client->getTicker($pair);
-                $entry['data'][] = [
-                    'market' => $market_pair->getMarket(),
-                    'pairSlug' => $client->formatPair($pair),
-                    'value' => $value,
-                ];
+                try {
 
-                $ticker = new Ticker();
-                $ticker
-                    ->setMarket($market_pair->getMarket())
-                    ->setPair($pair)
-                    ->setValue($value)
-                ;
-                $this->em->persist($ticker);
-                $this->em->flush();
+                    $value = $client->getTicker($pair);
 
+                    $data = [
+                        'market' => $market_pair->getMarket(),
+                        'pairSlug' => $client->formatPair($pair),
+                        'value' => $value,
+                    ];
+
+                    $ticker = new Ticker();
+                    $ticker
+                        ->setMarket($market_pair->getMarket())
+                        ->setPair($pair)
+                        ->setValue($value)
+                    ;
+                    $this->em->persist($ticker);
+                    $this->em->flush();
+
+                    $previousTicker = $this->em->getRepository("AppBundle:Ticker")->getPreviousTicker($ticker);
+                    $data['previousTicker'] = $previousTicker;
+
+                    $entry['data'][] = $data;
+
+                } catch (\Exception $e) {
+
+                }
             }
 
             $output[] = $entry;
