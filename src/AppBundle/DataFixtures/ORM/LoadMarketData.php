@@ -58,6 +58,13 @@ class LoadMarketData extends AbstractFixture implements OrderedFixtureInterface
         ;
         $manager->persist($market05);
 
+        $market06 = new Market();
+        $market06
+            ->setName('Bittrex')
+            ->setSlug('bittrex')
+        ;
+        $manager->persist($market06);
+
         $manager->flush();
 
         $this->addReference('market-bitstamp', $market01);
@@ -65,6 +72,7 @@ class LoadMarketData extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('market-btce', $market03);
         $this->addReference('market-xbtce', $market04);
         $this->addReference('market-coinbase', $market05);
+        $this->addReference('market-bittrex', $market06);
     }
 
     public function getOrder()

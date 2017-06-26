@@ -26,3 +26,5 @@ parameters:
     api.clients.btce.secret: ~
     api.clients.coinbase.key: ~
     api.clients.coinbase.secret: ~
+    api.clients.bittrex.key: ~
+    api.clients.bittrex.secret: ~

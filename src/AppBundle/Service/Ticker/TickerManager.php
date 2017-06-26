@@ -76,15 +76,18 @@ class TickerManager
                         ->setValue($value)
                     ;
                     $this->em->persist($ticker);
-                    $this->em->flush();
 
                     $previousTicker = $this->em->getRepository("AppBundle:Ticker")->getPreviousTicker($ticker);
                     $data['previousTicker'] = $previousTicker;
 
+                    // flushing here, so previous ticker is not current ticker
+                    $this->em->flush();
+
                     $entry['data'][] = $data;
 
                 } catch (\Exception $e) {
-
+                    dump($e->getMessage());
+                    die();
                 }
             }
 

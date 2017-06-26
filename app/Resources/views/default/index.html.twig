@@ -25,17 +25,19 @@
                                             {% if data.market.chartUrl is not null %}
                                         </a>
                                         {% endif %}
-                                        <span class="pull-right">
-                                            &nbsp;
-                                            {% if data.value > data.previousTicker.value %}
-                                                <span class="glyphicon glyphicon-arrow-up text-success" data-toggle="tooltip" data-placement="right" title="{{ data.previousTicker.value | number_format(4, '.', ',') }}"></span>
-                                            {% elseif data.value == data.previousTicker.value %}
-                                                <span class="glyphicon glyphicon-arrow-right text-info" data-toggle="tooltip" data-placement="right" title="{{ data.previousTicker.value | number_format(4, '.', ',') }}"></span>
-                                            {% else %}
-                                                <span class="glyphicon glyphicon-arrow-up text-danger" data-toggle="tooltip" data-placement="right" title="{{ data.previousTicker.value | number_format(4, '.', ',') }}"></span>
-                                            {% endif %}
-                                        </span>
-                                        <span class="pull-right">{{ data.value | number_format(4, '.', ',') }}</span>
+
+                                        {% if data.previousTicker is defined %}
+                                            <span class="pull-right">
+                                                {% if data.value > data.previousTicker.value %}
+                                                    <span class="glyphicon glyphicon-arrow-up text-success" data-toggle="tooltip" data-placement="right" title="{{ data.previousTicker.value | number_format(8, '.', ',') }}"></span>
+                                                {% elseif data.value == data.previousTicker.value %}
+                                                    <span class="glyphicon glyphicon-arrow-right text-info" data-toggle="tooltip" data-placement="right" title="{{ data.previousTicker.value | number_format(8, '.', ',') }}"></span>
+                                                {% else %}
+                                                    <span class="glyphicon glyphicon-arrow-down text-danger" data-toggle="tooltip" data-placement="right" title="{{ data.previousTicker.value | number_format(8, '.', ',') }}"></span>
+                                                {% endif %}
+                                            </span>
+                                        {% endif %}
+                                        <span class="pull-right">{{ data.value | number_format(8, '.', ',') }}</span>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -58,7 +60,7 @@
                                 {% for currency, fund in balance %}
                                     <li class="list-group-item">
                                         {{ currency | upper }}
-                                        <span class="pull-right">{{ fund | number_format(4, '.', ',') }}</span>
+                                        <span class="pull-right">{{ fund | number_format(8, '.', ',') }}</span>
                                     </li>
                                 {% endfor %}
                             </ul>

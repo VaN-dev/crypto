@@ -18,6 +18,13 @@ services:
             - { name: app.api_client.ticker, alias: btc-e }
             - { name: app.api_client.balance, alias: btc-e }
 
+    app.market.api_client.bittrex:
+        class: AppBundle\Service\Market\ApiClient\BittrexClient
+        arguments:
+            - { key: "%api.clients.bittrex.key%", secret: "%api.clients.bittrex.secret%" }
+        tags:
+            - { name: app.api_client.ticker, alias: bittrex }
+
     app.market.api_client.kraken:
         class: AppBundle\Service\Market\ApiClient\KrakenClient
         tags:
