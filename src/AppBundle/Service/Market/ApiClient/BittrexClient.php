@@ -74,10 +74,6 @@ class BittrexClient implements ApiClientInterface
     {
         $pair_str = $this->formatPair($pair);
 
-//        $t = (string) $this->client->request("GET", "public/getticker?market=" . $pair_str)->getBody();
-//        dump($t);
-//        die();
-
         return (float) json_decode((string) $this->client->request("GET", "public/getticker?market=" . $pair_str)->getBody())->result->Last;
     }
 
@@ -114,5 +110,13 @@ class BittrexClient implements ApiClientInterface
         }
 
         return $output;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrencies()
+    {
+        return json_decode((string) $this->client->request("GET", "public/getcurrencies")->getBody())->result;
     }
 }

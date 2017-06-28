@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Market</h1>
+
+    <h2>Actions</h2>
+
+    <a href="{{ path('market.import.currencies', {market: market.id}) }}">Import currencies</a>
+
+    <h2>Place order</h2>
+
+    {{ form_start(form) }}
+
+        {{ form_row(form.sourceCurrency) }}
+        {{ form_row(form.targetCurrency) }}
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    {{ form_end(form) }}
+
+{% endblock %}

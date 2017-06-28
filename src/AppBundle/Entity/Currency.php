@@ -3,11 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * Currency
  *
- * @ORM\Table(name="currency")
+ * @ORM\Table(name="currency", uniqueConstraints={@UniqueConstraint(name="currency_unique", columns={"name", "symbol"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CurrencyRepository")
  */
 class Currency
@@ -24,14 +25,14 @@ class Currency
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="symbol", type="string", length=255, unique=true)
+     * @ORM\Column(name="symbol", type="string", length=255)
      */
     private $symbol;
 
@@ -49,6 +50,18 @@ class Currency
      */
     private $parsable;
 
+
+    /**
+     * CUSTOM METHODS
+     */
+
+    /**
+     * @return string
+     */
+
+    /**
+     * GETTERS & SETTERS
+     */
 
     /**
      * Get id

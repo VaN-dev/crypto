@@ -10,4 +10,15 @@ namespace AppBundle\Repository;
  */
 class CurrencyRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getFlatSymbols()
+    {
+        $qb = $this->createQueryBuilder("c")
+            ->select("c.symbol")
+        ;
+
+        $data = $qb->getQuery()->getScalarResult();
+        $symbols = array_column($data, "symbol");
+
+        return $symbols;
+    }
 }

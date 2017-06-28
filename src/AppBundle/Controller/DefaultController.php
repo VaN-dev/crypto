@@ -18,6 +18,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         try {
+            $markets = $this->getDoctrine()->getRepository("AppBundle:Market")->findAll();
             $tickers = $this->get("app.ticker.manager")->getTickers();
             $balances = $this->get("app.balance.manager")->getBalances();
         } catch (\Exception $e) {
@@ -27,6 +28,7 @@ class DefaultController extends Controller
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
+            'markets' => $markets,
             'tickers' => $tickers,
             'balances' => $balances,
         ]);

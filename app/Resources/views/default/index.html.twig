@@ -69,6 +69,13 @@
                 {% endfor %}
             </div>
 
+
+            <h2>Markets</h2>
+
+            {% for market in markets %}
+                <a href="{{ path('market.show', {market: market.id}) }}" class="btn btn-default">{{ market.name }}</a>
+            {% endfor %}
+
         </div>
         <div class="col-sm-2">
 
