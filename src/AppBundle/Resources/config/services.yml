@@ -3,7 +3,10 @@ services:
         class: AppBundle\Service\Market\ApiClient\TickerApiClientCollection
 
     app.market.api_client.balance.collection:
-            class: AppBundle\Service\Market\ApiClient\BalanceApiClientCollection
+        class: AppBundle\Service\Market\ApiClient\BalanceApiClientCollection
+
+    app.market.api_client.volume.collection:
+        class: AppBundle\Service\Market\ApiClient\VolumeApiClientCollection
 
     app.market.api_client.bitstamp:
         class: AppBundle\Service\Market\ApiClient\BitstampClient
@@ -24,6 +27,7 @@ services:
             - { key: "%api.clients.bittrex.key%", secret: "%api.clients.bittrex.secret%" }
         tags:
             - { name: app.api_client.ticker, alias: bittrex }
+            - { name: app.api_client.volume, alias: bittrex }
 
     app.market.api_client.kraken:
         class: AppBundle\Service\Market\ApiClient\KrakenClient

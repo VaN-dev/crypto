@@ -4,6 +4,7 @@ namespace AppBundle;
 
 use AppBundle\DependencyInjection\Compiler\BalanceApiClientCollectionPass;
 use AppBundle\DependencyInjection\Compiler\TickerApiClientCollectionPass;
+use AppBundle\DependencyInjection\Compiler\VolumeApiClientCollectionPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -20,5 +21,6 @@ class AppBundle extends Bundle
     {
         $container->addCompilerPass(new TickerApiClientCollectionPass());
         $container->addCompilerPass(new BalanceApiClientCollectionPass());
+        $container->addCompilerPass(new VolumeApiClientCollectionPass());
     }
 }

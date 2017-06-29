@@ -18,4 +18,40 @@
 
     {{ form_end(form) }}
 
+    <h2>Volumes</h2>
+
+    {{ dump(volumes) }}
+
+    <div class="row">
+        {% for pair, data in volumes %}
+            <div class="col-xs-12 col-sm-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"> {{ pair }}</h3>
+                    </div>
+                    <ul class="list-group">
+                        {% for volume in data %}
+                            <li class="list-group-item">
+
+                                {{ volume.volume | number_format(8, '.', ',') }}
+
+                                <span class="pull-right">
+                                    {% if volume.change > 100 %}
+                                        <span class="glyphicon glyphicon-arrow-up text-success" data-toggle="tooltip" data-placement="right" title="{{ volume.change | number_format(8, '.', ',') }} %"></span>
+                                    {% elseif volume.change == 100 %}
+                                        <span class="glyphicon glyphicon-arrow-right text-info" data-toggle="tooltip" data-placement="right" title="{{ volume.change | number_format(8, '.', ',') }}"></span>
+                                    {% else %}
+                                        <span class="glyphicon glyphicon-arrow-down text-danger" data-toggle="tooltip" data-placement="right" title="{{ volume.change | number_format(8, '.', ',') }}"></span>
+                                    {% endif %}
+                                </span>
+
+                                <span class="pull-right">{{ volume.change | number_format(2, '.', ',') }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}

@@ -119,4 +119,22 @@ class BittrexClient implements ApiClientInterface
     {
         return json_decode((string) $this->client->request("GET", "public/getcurrencies")->getBody())->result;
     }
+
+    /**
+     * @param Pair $pair
+     * @return float
+     */
+    public function getVolume(Pair $pair)
+    {
+        $pair_str = $this->formatPair($pair);
+
+        $data = json_decode((string) $this->client->request("GET", "public/getorderbook?market=" . $pair_str . "&type=buy&depth=20")->getBody())->result;
+
+
+        $volume = (float) array_sum(array_map(function($item) {
+            return $item->Quantity;
+        }, $data));
+
+        return $volume;
+    }
 }
