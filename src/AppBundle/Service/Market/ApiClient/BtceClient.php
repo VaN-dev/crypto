@@ -54,7 +54,9 @@ class BtceClient implements ApiClientInterface
      */
     protected function getNonce()
     {
-        return (int)bcmul(bcadd((string)time(), substr(microtime(), 0, 3), 1), '10') - 13e9;
+        $nonce = (int) bcmul(bcadd((string)time(), substr(microtime(), 0, 3), 1), '10') - 13e9;
+
+        return $nonce;
     }
 
     /**
