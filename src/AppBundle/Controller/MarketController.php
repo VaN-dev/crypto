@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Currency;
 use AppBundle\Entity\Market;
+use AppBundle\Entity\MarketPair;
 use AppBundle\Entity\Pair;
 use AppBundle\Form\AutomatedTradeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -28,6 +29,8 @@ class MarketController extends Controller
         $volumes = [];
 
         $marketPairs = $em->getRepository("AppBundle:MarketPair")->findBy(["market" => $market]);
+        $marketPairs = array_slice($marketPairs, 0, 16);
+
         foreach ($marketPairs as $marketPair) {
             $volumes[$marketPair->getPair()->getSlug()] = $client->getVolume($marketPair->getPair());
         }
@@ -41,7 +44,7 @@ class MarketController extends Controller
         foreach ($volumes as $pair => $volume) {
             $latestVolumes[$pair][] = [
                 "volume" => $volume,
-                "change" => $volume * 100 / end($latestVolumes[$pair])["volume"],
+                "change" => isset($latestVolumes[$pair]) && is_array($latestVolumes[$pair]) && 0 != end($latestVolumes[$pair])["volume"] ? $volume * 100 / end($latestVolumes[$pair])["volume"] : null,
             ];
         }
 
@@ -76,6 +79,8 @@ class MarketController extends Controller
 
         $dbCurrencies = $em->getRepository("AppBundle:Currency")->getFlatSymbols();
 
+        $bitcoin = $em->getRepository("AppBundle:Currency")->findOneBy(["symbol" => "BTC"]);
+
         $count = 0;
         foreach ($clientCurrencies as $k => $clientCurrency) {
             if (!in_array($clientCurrency->Currency, $dbCurrencies)) {
@@ -87,6 +92,27 @@ class MarketController extends Controller
                 ;
 
                 $em->persist($currency);
+
+                $dbPair = $em->getRepository("AppBundle:Pair")->findOneBy(["sourceCurrency" => $bitcoin, "targetCurrency" => $currency]);
+                $dbMarketPair = $em->getRepository("AppBundle:MarketPair")->findOneBy(["market" => $market, "pair" => $dbPair]);
+
+                if (null === $dbMarketPair) {
+                    $pair = new Pair();
+                    $pair
+                        ->setSourceCurrency($bitcoin)
+                        ->setTargetCurrency($currency)
+                    ;
+
+                    $marketPair = new MarketPair();
+                    $marketPair
+                        ->setMarket($market)
+                        ->setPair($pair)
+                    ;
+
+                    $em->persist($pair);
+                    $em->persist($marketPair);
+                }
+
                 $count++;
             }
         }

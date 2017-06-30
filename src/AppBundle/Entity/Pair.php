@@ -67,11 +67,11 @@ class Pair
     /**
      * Set sourceCurrency
      *
-     * @param integer $sourceCurrency
+     * @param Currency $sourceCurrency
      *
      * @return Pair
      */
-    public function setSourceCurrency($sourceCurrency)
+    public function setSourceCurrency(Currency $sourceCurrency)
     {
         $this->sourceCurrency = $sourceCurrency;
 
@@ -91,11 +91,11 @@ class Pair
     /**
      * Set targetCurrency
      *
-     * @param integer $targetCurrency
+     * @param Currency $targetCurrency
      *
      * @return Pair
      */
-    public function setTargetCurrency($targetCurrency)
+    public function setTargetCurrency(Currency $targetCurrency)
     {
         $this->targetCurrency = $targetCurrency;
 

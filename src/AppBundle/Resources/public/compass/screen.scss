@@ -1,3 +1,8 @@
 $icon-font-path: "/assets/vendor/bootstrap-sass/assets/fonts/bootstrap/";
 //@import "../../../../../web/assets/vendor/bootstrap-sass/assets/stylesheets/bootstrap-compass";
 @import "../../../../../web/assets/vendor/bootstrap-sass/assets/stylesheets/bootstrap";
+
+
+.list-group-item {
+    padding: 5px 10px;
+}

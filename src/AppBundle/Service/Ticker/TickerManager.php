@@ -41,6 +41,7 @@ class TickerManager
     public function getTickers()
     {
         $pairs = $this->em->getRepository("AppBundle:Pair")->findAll();
+        $pairs = array_slice($pairs, 0, 10);
 
         $output = [];
 
