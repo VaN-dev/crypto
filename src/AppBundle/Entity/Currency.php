@@ -166,5 +166,14 @@ class Currency
     }
 
 
-}
 
+    /**
+     * Get parsable
+     *
+     * @return boolean
+     */
+    public function getParsable()
+    {
+        return $this->parsable;
+    }
+}

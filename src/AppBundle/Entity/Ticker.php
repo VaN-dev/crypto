@@ -166,4 +166,3 @@ class Ticker
         return $this->value;
     }
 }
-

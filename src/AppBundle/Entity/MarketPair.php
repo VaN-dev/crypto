@@ -24,7 +24,7 @@ class MarketPair
     /**
      * @var Market
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Market")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Market", inversedBy="pairs")
      * @ORM\JoinColumn(name="market_id", nullable=false)
      */
     private $market;
@@ -85,4 +85,3 @@ class MarketPair
 
 
 }
-

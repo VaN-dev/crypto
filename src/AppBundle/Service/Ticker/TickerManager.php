@@ -51,7 +51,7 @@ class TickerManager
                 'data' => [],
             ];
 
-            $market_pairs = $this->em->getRepository("AppBundle:MarketPair")->findBy(["pair" => $pair]);
+            $market_pairs = $this->em->getRepository("AppBundle:MarketPair")->fetchActiveMarketPairs($pair);
 
             foreach ($market_pairs as $market_pair) {
                 $client = $this->clientsCollection->getClient($market_pair->getMarket()->getSlug());
@@ -61,7 +61,8 @@ class TickerManager
                 }
 
                 try {
-
+//                    dump($client);
+//                    dump($pair);
                     $value = $client->getTicker($pair);
 
                     $data = [

@@ -47,7 +47,16 @@ class Pair
      */
     public function getSlug()
     {
-        return $this->sourceCurrency->getSymbol() . $this->targetCurrency->getSymbol();
+        $slug = "";
+
+        if (null !== $this->sourceCurrency) {
+            $slug .= $this->sourceCurrency->getSymbol();
+        }
+        if (null !== $this->targetCurrency) {
+            $slug .= $this->targetCurrency->getSymbol();
+        }
+
+        return $slug;
     }
 
     /**
@@ -112,4 +121,3 @@ class Pair
         return $this->targetCurrency;
     }
 }
-

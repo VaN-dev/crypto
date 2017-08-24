@@ -2,17 +2,16 @@
 
 namespace AppBundle\Form;
 
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class AutomatedTrade
+ * Class PairType
  * @package AppBundle\Form
  */
-class AutomatedTradeType extends AbstractType
+class PairType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -22,20 +21,12 @@ class AutomatedTradeType extends AbstractType
     {
         $builder
             ->add('sourceCurrency', EntityType::class, [
-                'class' => 'AppBundle\Entity\Currency',
-                'choice_label' => 'symbol',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('c')
-                        ->orderBy('c.symbol');
-                },
+                'class' => 'AppBundle:Currency',
+                'choice_label' => 'name',
             ])
             ->add('targetCurrency', EntityType::class, [
-                'class' => 'AppBundle\Entity\Currency',
-                'choice_label' => 'symbol',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('c')
-                        ->orderBy('c.symbol');
-                },
+                'class' => 'AppBundle:Currency',
+                'choice_label' => 'name',
             ])
         ;
     }
@@ -45,7 +36,11 @@ class AutomatedTradeType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-
+        $resolver
+            ->setDefaults([
+                'data_class' => 'AppBundle\Entity\Pair',
+            ])
+        ;
     }
 
     /**
@@ -53,6 +48,6 @@ class AutomatedTradeType extends AbstractType
      */
     public function getName()
     {
-        return 'app_bundle_automated_trade_type';
+        return 'app_bundle_pair_type';
     }
 }

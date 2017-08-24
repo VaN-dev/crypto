@@ -1,0 +1,35 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block body %}
+    <a href="{{ path('admin.pairs.create') }}" class="btn btn-primary pull-right">New pair</a>
+
+    <h1>Pairs</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Slug</th>
+                <th>Source currency</th>
+                <th>Target currency</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for pair in pairs %}
+                <tr>
+                    <td>{{ pair.id }}</td>
+                    <td>{{ pair.slug }}</td>
+                    <td>{{ pair.sourceCurrency.symbol }}</td>
+                    <td>{{ pair.targetCurrency.symbol }}</td>
+                    <td>
+                        <a href="{{ path('admin.pairs.update', {'id': pair.id}) }}">edit</a> -
+                        <a href="{{ path('admin.pairs.delete', {'id': pair.id}) }}">delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -7,7 +7,6 @@ use AppBundle\Entity\Market;
 use AppBundle\Entity\MarketPair;
 use AppBundle\Entity\Pair;
 use AppBundle\Form\AutomatedTradeType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,12 +14,13 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class MarketController
  * @package AppBundle\Controller
- * @Route("/market")
  */
 class MarketController extends Controller
 {
     /**
-     * @Route("/{market}", name="market.show")
+     * @param Request $request
+     * @param Market $market
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction(Request $request, Market $market)
     {

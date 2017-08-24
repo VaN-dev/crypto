@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Market;
 
 /**
  * PairRepository
@@ -10,4 +11,18 @@ namespace AppBundle\Repository;
  */
 class PairRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param Market $market
+     * @return array
+     */
+    public function fetchPairsByMarket(Market $market)
+    {
+        $qb = $this->createQueryBuilder("p")
+            ->join('AppBundle\Entity\MarketPair', 'mp', 'WITH', 'mp.pair = p')
+            ->where('mp.market = :market')
+            ->setParameter('market', $market)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }

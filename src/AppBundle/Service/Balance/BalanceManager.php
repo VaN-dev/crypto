@@ -39,15 +39,22 @@ class BalanceManager
     {
         $output = [];
 
-        $markets = $this->em->getRepository("AppBundle:Market")->findAll();
+        $markets = $this->em->getRepository("AppBundle:Market")->findBy(["enabled" => true]);
 
         foreach ($markets as $market) {
             $client = $this->clientsCollection->getClient($market->getSlug());
 
-            if (null !== $client) {
-                $entry = $client->getBalance();
+            try {
 
-                $output[$market->getName()] = $entry;
+                if (null !== $client) {
+                    $entry = $client->getBalance();
+
+                    $output[$market->getName()] = $entry;
+                }
+
+            } catch (\Exception $e) {
+                dump($e->getMessage());
+                die();
             }
         }
 

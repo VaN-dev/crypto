@@ -1,3 +1,58 @@
 app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+    path:     /
+    defaults: { _controller: AppBundle:Default:index }
+
+market.show:
+    path:     /market/{market}
+    defaults: { _controller: AppBundle:Market:show }
+    requirements:
+        market: \d+
+
+market.import.currencies:
+    path:     /market/{market}/import-currencies
+    defaults: { _controller: AppBundle:Market:importCurrencies }
+    requirements:
+        market: \d+
+
+admin:
+    path:     /admin
+    defaults: { _controller: AppBundle:Admin/Default:index }
+
+admin.currencies:
+    path:     /admin/currencies
+    defaults: { _controller: AppBundle:Admin/Currency:index }
+admin.currencies.create:
+    path:     /admin/currencies/create
+    defaults: { _controller: AppBundle:Admin/Currency:create }
+admin.currencies.update:
+    path:     /admin/currencies/{id}/update
+    defaults: { _controller: AppBundle:Admin/Currency:update }
+admin.currencies.delete:
+    path:     /admin/currencies/{id}/delete
+    defaults: { _controller: AppBundle:Admin/Currency:delete }
+
+admin.pairs:
+    path:     /admin/pairs
+    defaults: { _controller: AppBundle:Admin/Pair:index }
+admin.pairs.create:
+    path:     /admin/pairs/create
+    defaults: { _controller: AppBundle:Admin/Pair:create }
+admin.pairs.update:
+    path:     /admin/pairs/{id}/update
+    defaults: { _controller: AppBundle:Admin/Pair:update }
+admin.pairs.delete:
+    path:     /admin/pairs/{id}/delete
+    defaults: { _controller: AppBundle:Admin/Pair:delete }
+
+admin.markets:
+    path:     /admin/markets
+    defaults: { _controller: AppBundle:Admin/Market:index }
+admin.markets.create:
+    path:     /admin/markets/create
+    defaults: { _controller: AppBundle:Admin/Market:create }
+admin.markets.update:
+    path:     /admin/markets/{id}/update
+    defaults: { _controller: AppBundle:Admin/Market:update }
+admin.markets.delete:
+    path:     /admin/markets/{id}/delete
+    defaults: { _controller: AppBundle:Admin/Market:delete }

@@ -58,3 +58,10 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@app.market.api_client.balance.collection"
+
+    app.form.market:
+        class: AppBundle\Form\MarketType
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type }

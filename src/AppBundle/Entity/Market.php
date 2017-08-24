@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,6 +49,20 @@ class Market
      * @ORM\Column(name="chart_url", type="string", length=255, nullable=true, unique=true)
      */
     private $chartUrl;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="enabled", type="boolean")
+     */
+    private $enabled;
+
+    /**
+     * @var MarketPair[]
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MarketPair", mappedBy="market", cascade={"persist", "remove"})
+     */
+    private $pairs;
 
 
     /**
@@ -147,5 +162,73 @@ class Market
 
         return $this;
     }
-}
 
+    /**
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param bool $enabled
+     * @return Market
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+        return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->pairs = new ArrayCollection();
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Add pair
+     *
+     * @param MarketPair $pair
+     *
+     * @return Market
+     */
+    public function addPair(MarketPair $pair)
+    {
+        $this->pairs[] = $pair;
+
+        return $this;
+    }
+
+    /**
+     * Remove pair
+     *
+     * @param MarketPair $pair
+     */
+    public function removePair(MarketPair $pair)
+    {
+        $this->pairs->removeElement($pair);
+    }
+
+    /**
+     * Get pairs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPairs()
+    {
+        return $this->pairs;
+    }
+}

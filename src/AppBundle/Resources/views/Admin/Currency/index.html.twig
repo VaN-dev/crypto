@@ -1,0 +1,37 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block body %}
+    <a href="{{ path('admin.currencies.create') }}" class="btn btn-primary pull-right">New currency</a>
+
+    <h1>Currencies</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Icon</th>
+                <th>Parsable</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for currency in currencies %}
+                <tr>
+                    <td>{{ currency.id }}</td>
+                    <td>{{ currency.name }}</td>
+                    <td>{{ currency.symbol }}</td>
+                    <td>{{ currency.icon }}</td>
+                    <td>{{ currency.parsable }}</td>
+                    <td>
+                        <a href="{{ path('admin.currencies.update', {'id': currency.id}) }}">edit</a> -
+                        <a href="{{ path('admin.currencies.delete', {'id': currency.id}) }}">delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -2,6 +2,9 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\MarketPair;
+use AppBundle\Entity\Pair;
+
 /**
  * MarketPairRepository
  *
@@ -10,4 +13,19 @@ namespace AppBundle\Repository;
  */
 class MarketPairRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param Pair $pair
+     * @return MarketPair[]
+     */
+    public function fetchActiveMarketPairs(Pair $pair)
+    {
+        $qb = $this->createQueryBuilder('mp')
+            ->join('AppBundle\Entity\Market', 'm', 'WITH', 'mp.market = m')
+            ->where('m.enabled = true')
+            ->andWhere('mp.pair = :pair')
+            ->setParameter('pair', $pair)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }

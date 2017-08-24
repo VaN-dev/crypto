@@ -12,6 +12,13 @@ use GuzzleHttp\ClientInterface;
  */
 class KrakenClient implements ApiClientInterface
 {
+    private $_mapping = [
+        "BTC" => "XBT",
+    ];
+
+    /**
+     * @var string
+     */
     private $base_uri = "https://api.kraken.com/0/";
 
     /**
@@ -33,7 +40,13 @@ class KrakenClient implements ApiClientInterface
      */
     public function formatPair(Pair $pair)
     {
-        return mb_strtoupper("X" . $pair->getSourceCurrency()->getSymbol() . "Z" . $pair->getTargetCurrency()->getSymbol());
+        if (in_array($pair->getSourceCurrency()->getSymbol(), $this->_mapping)) {
+            $source_symbol = $this->_mapping[$pair->getSourceCurrency()->getSymbol()];
+        } else {
+            $source_symbol = $pair->getSourceCurrency()->getSymbol();
+        }
+
+        return mb_strtoupper("X" . $source_symbol . "Z" . $pair->getTargetCurrency()->getSymbol());
     }
 
     /**

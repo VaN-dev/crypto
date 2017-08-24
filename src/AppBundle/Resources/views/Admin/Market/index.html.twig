@@ -1,0 +1,35 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block body %}
+    <a href="{{ path('admin.markets.create') }}" class="btn btn-primary pull-right">New market</a>
+
+    <h1>Markets</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Slug</th>
+                <th>Enabled</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for market in markets %}
+                <tr>
+                    <td>{{ market.id }}</td>
+                    <td>{{ market.name }}</td>
+                    <td>{{ market.slug }}</td>
+                    <td>{{ market.enabled }}</td>
+                    <td>
+                        <a href="{{ path('admin.markets.update', {'id': market.id}) }}">edit</a> -
+                        <a href="{{ path('admin.markets.delete', {'id': market.id}) }}">delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
