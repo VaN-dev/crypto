@@ -5,6 +5,7 @@ namespace AppBundle\Service\Market\ApiClient;
 use AppBundle\Entity\Pair;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use Payward\KrakenAPI;
 
 /**
  * Class KrakenClient
@@ -22,16 +23,50 @@ class KrakenClient implements ApiClientInterface
     private $base_uri = "https://api.kraken.com/0/";
 
     /**
+     * @var string
+     */
+    protected $key;
+
+    /**
+     * @var string
+     */
+    protected $secret;
+
+    /**
      * @var ClientInterface
      */
     private $client;
 
     /**
-     * Bitstamp constructor.
+     * @var KrakenAPI
      */
-    public function __construct()
+    private $client2;
+
+    /**
+     * KrakenClient constructor.
+     * @param $params
+     */
+    public function __construct($params)
     {
+        $this->key = $params["key"];
+        $this->secret = $params["secret"];
+
         $this->client = new Client(["base_uri" => $this->base_uri]);
+
+        $beta = false;
+        $url = $beta ? 'https://api.beta.kraken.com' : 'https://api.kraken.com';
+        $sslverify = $beta ? false : true;
+        $version = 0;
+        $this->client2 = new KrakenAPI($this->key, $this->secret, $url, $version, $sslverify);
+    }
+
+    /**
+     * @return int
+     */
+    protected function getNonce()
+    {
+        $nonce = explode(' ', microtime());
+        return $nonce[1] . str_pad(substr($nonce[0], 2, 6), 6, '0');
     }
 
     /**
@@ -57,6 +92,17 @@ class KrakenClient implements ApiClientInterface
     {
         $pair_str = $this->formatPair($pair);
 
-        return (float) json_decode((string) $this->client->request("GET", "public/Ticker?pair=" . $pair_str)->getBody())->result->{$pair_str}->c[0];
+        $response = $this->client2->QueryPublic('Ticker', ["pair" => $pair_str]);
+
+        $result = $response["result"][$pair_str]["c"][0];
+
+        return $result;
+    }
+
+    public function getBalance()
+    {
+        $response = $this->client2->QueryPrivate('Balance');
+
+        return $response["result"];
     }
 }

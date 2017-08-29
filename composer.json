@@ -19,6 +19,7 @@
             "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
         ]
     },
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.9",
         "coinbase/coinbase": "^2.5",
@@ -28,6 +29,7 @@
         "guzzlehttp/guzzle": "^6.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "kriswallsmith/assetic": "^1.4",
+        "payward/kraken-api-client": "dev-master",
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "symfony/assetic-bundle": "^2.8",

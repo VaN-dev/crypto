@@ -28,3 +28,5 @@ parameters:
     api.clients.coinbase.secret: ~
     api.clients.bittrex.key: ~
     api.clients.bittrex.secret: ~
+    api.clients.kraken.key: ~
+    api.clients.kraken.secret: ~

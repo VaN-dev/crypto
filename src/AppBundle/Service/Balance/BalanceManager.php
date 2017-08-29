@@ -47,7 +47,11 @@ class BalanceManager
             try {
 
                 if (null !== $client) {
-                    $entry = $client->getBalance();
+                    $entry = [
+                        "market" => $market,
+                        "balances" => $client->getBalance(),
+//                        "value" => $this->em->getRepository("AppBundle:Ticker")->findOneBy(["market" => $market], ["createdAt" => "DESC"]),
+                    ];
 
                     $output[$market->getName()] = $entry;
                 }

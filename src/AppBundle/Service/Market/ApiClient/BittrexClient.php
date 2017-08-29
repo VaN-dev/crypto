@@ -54,7 +54,7 @@ class BittrexClient implements ApiClientInterface
      */
     protected function getNonce()
     {
-        return (int)bcmul(bcadd((string)time(), substr(microtime(), 0, 3), 1), '10') - 13e9;
+        return $nonce=time();
     }
 
     /**
@@ -82,34 +82,47 @@ class BittrexClient implements ApiClientInterface
      */
     public function getBalance()
     {
-        $body["method"] = "getInfo";
-        $body["nonce"] = $this->getNonce();
+        $nonce = $this->getNonce();
 
-        // generate the POST data string
-        $post_data = http_build_query($body, '', '&');
+        $uri='https://bittrex.com/api/v1.1/account/getbalances?apikey='.$this->key.'&nonce='.$nonce;
+        $sign = hash_hmac('sha512', $uri, $this->secret);
 
         $headers = [
-            'Sign' => hash_hmac("sha512", $post_data, $this->secret),
-            'Key' => $this->key,
-            'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+            "apisign" => $sign,
+        ];
+
+        $body = [
+            "apikey" => $this->key,
+            "nonce" => $this->getNonce(),
         ];
 
         $request = [
             "headers" => $headers,
-            "body" => $post_data,
         ];
 
-        $response = json_decode((string) $this->client->request("POST", "/tapi", $request)->getBody());
+        $response = json_decode((string) $this->client->request("GET", "account/getbalances?apikey=" . $this->key . '&nonce=' . $nonce, $request)->getBody())->result;
 
-        $output = (array) $response->return->funds;
-
-        foreach ($output as $k => $fund) {
-            if ($fund == 0) {
-                unset($output[$k]);
-            }
+        $balances = [];
+        foreach ($response as $balance) {
+            $balances[$balance->Currency] = $balance->Balance;
         }
 
-        return $output;
+
+
+//        $apikey=$this->key;
+//        $apisecret=$this->secret;
+//
+//        $nonce=time();
+//        $uri='https://bittrex.com/api/v1.1/account/getbalances?apikey='.$apikey.'&nonce='.$nonce;
+//        $sign=hash_hmac('sha512',$uri,$apisecret);
+//        $ch = curl_init($uri);
+//        curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+//        $execResult = curl_exec($ch);
+//        $obj = json_decode($execResult);
+//
+//        dump($obj);
+
+        return $balances;
     }
 
     /**

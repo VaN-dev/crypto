@@ -9,6 +9,7 @@
             <h2>Tickers</h2>
 
             <div class="row">
+                {{ dump(tickers) }}
                 {% for ticker in tickers %}
                     <div class="col-xs-12 col-sm-3">
                         <div class="panel panel-default">
@@ -50,17 +51,20 @@
             <h2>Balances</h2>
 
             <div class="row">
-                {% for market, balance in balances %}
+                {{ dump(balances) }}
+                {% for values in balances %}
+                    {{ dump(values) }}
                     <div class="col-xs-12 col-sm-3">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">{{ market }}</h3>
+                                <h3 class="panel-title">{{ values.market.name }}</h3>
                             </div>
                             <ul class="list-group">
-                                {% for currency, fund in balance %}
+                                {% for currency, balance in values.balances %}
                                     <li class="list-group-item">
                                         {{ currency | upper }}
-                                        <span class="pull-right">{{ fund | number_format(8, '.', ',') }}</span>
+                                        <span class="pull-right">{{ balance | number_format(8, '.', ',') }}</span>
+                                        {#<span class="pull-right">{{ fund.value | number_format(8, '.', ',') }}</span>#}
                                     </li>
                                 {% endfor %}
                             </ul>
