@@ -63,7 +63,7 @@
                                         </a>
                                         {% endif %}
 
-                                        {% if data.previousTicker is defined %}
+                                        {% if data.previousTicker is defined and data.previousTicker is not null %}
                                             <span class="pull-right">
                                                 {% if data.value > data.previousTicker.value %}
                                                     <span class="glyphicon glyphicon-arrow-up text-success" data-toggle="tooltip" data-placement="right" title="{{ data.previousTicker.value | number_format(8, '.', ',') }}"></span>
