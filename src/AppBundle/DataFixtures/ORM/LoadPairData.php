@@ -53,6 +53,13 @@ class LoadPairData extends AbstractFixture implements OrderedFixtureInterface
         ;
         $manager->persist($pair05);
 
+        $pair06 = new Pair();
+        $pair06
+            ->setSourceCurrency($this->getReference('currency-bitcoincash'))
+            ->setTargetCurrency($this->getReference('currency-euro'))
+        ;
+        $manager->persist($pair06);
+
         $manager->flush();
 
         $this->addReference('pair-btceur', $pair01);
@@ -60,6 +67,7 @@ class LoadPairData extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('pair-etheur', $pair03);
         $this->addReference('pair-ltceur', $pair04);
         $this->addReference('pair-xrpbtc', $pair05);
+        $this->addReference('pair-bcheur', $pair06);
     }
 
     public function getOrder()
