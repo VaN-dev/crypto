@@ -15,6 +15,7 @@ class KrakenClient implements ApiClientInterface
 {
     private $_mapping = [
         "BTC" => "XXBT",
+        "ETH" => "XETH",
     ];
 
     /**

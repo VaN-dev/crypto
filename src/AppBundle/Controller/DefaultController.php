@@ -42,7 +42,7 @@ class DefaultController extends Controller
                         $balance["balances"][$symbol]["fiat_value"] = $fiat_value;
                         $total += $fiat_value;
                     } else {
-                        die("pair not found");
+                        throw new \Exception(sprintf("pair %s/%s not found", $symbol, $defaultFiatCurrency->getSymbol()));
                     }
                 }
 
