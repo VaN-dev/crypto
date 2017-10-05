@@ -40,6 +40,7 @@ class LoadMarketData extends AbstractFixture implements OrderedFixtureInterface
             ->setSlug('btc-e')
             ->setApiUrl('https://btc-e.com/api/3/')
             ->setChartUrl('https://btc-e.com/exchange/')
+            ->setEnabled(false)
         ;
         $manager->persist($market03);
 
@@ -48,6 +49,7 @@ class LoadMarketData extends AbstractFixture implements OrderedFixtureInterface
             ->setName('Xbtce')
             ->setSlug('xbtce')
             ->setApiUrl('https://cryptottlivewebapi.xbtce.net:8443/api/v1/')
+            ->setEnabled(false)
         ;
         $manager->persist($market04);
 

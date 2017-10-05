@@ -14,6 +14,7 @@
                 <th>Symbol</th>
                 <th>Icon</th>
                 <th>Parsable</th>
+                <th>Default</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -25,6 +26,7 @@
                     <td>{{ currency.symbol }}</td>
                     <td>{{ currency.icon }}</td>
                     <td>{{ currency.parsable }}</td>
+                    <td>{{ currency.default }}</td>
                     <td>
                         <a href="{{ path('admin.currencies.update', {'id': currency.id}) }}">edit</a> -
                         <a href="{{ path('admin.currencies.delete', {'id': currency.id}) }}">delete</a>

@@ -24,6 +24,7 @@ class LoadCurrencyData extends AbstractFixture implements OrderedFixtureInterfac
             ->setSymbol('EUR')
             ->setIcon('EUR')
             ->setParsable(false)
+            ->setDefault(true)
         ;
         $manager->persist($currency01);
 

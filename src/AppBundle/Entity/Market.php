@@ -55,7 +55,7 @@ class Market
      *
      * @ORM\Column(name="enabled", type="boolean")
      */
-    private $enabled;
+    private $enabled = true;
 
     /**
      * @var MarketPair[]

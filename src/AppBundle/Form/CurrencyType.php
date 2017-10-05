@@ -23,6 +23,7 @@ class CurrencyType extends AbstractType
             ->add('symbol')
             ->add('icon')
             ->add('parsable')
+            ->add('default')
         ;
     }
 

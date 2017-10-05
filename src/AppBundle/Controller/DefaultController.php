@@ -21,10 +21,25 @@ class DefaultController extends Controller
             $markets = $this->getDoctrine()->getRepository("AppBundle:Market")->findBy(["enabled" => true]);
             $tickers = $this->get("app.ticker.manager")->getTickers();
             $balances = $this->get("app.balance.manager")->getBalances();
+
+//            dump($balances);
+//            dump($tickers);
+
+            foreach ($balances as $key => &$balance) {
+                foreach ($balance["balances"] as $symbol => $value) {
+                    $balance["balances"][$symbol] = [
+                        "value" => (float) $value,
+                        "fiat_value" => 0,
+                    ];
+                }
+            }
         } catch (\Exception $e) {
             echo $e->getMessage();
             die();
         }
+
+//        dump($balances);
+//        die();
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [

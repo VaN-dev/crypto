@@ -50,6 +50,13 @@ class Currency
      */
     private $parsable;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_default", type="boolean")
+     */
+    private $default = false;
+
 
     /**
      * CUSTOM METHODS
@@ -165,8 +172,6 @@ class Currency
         return $this;
     }
 
-
-
     /**
      * Get parsable
      *
@@ -175,5 +180,23 @@ class Currency
     public function getParsable()
     {
         return $this->parsable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDefault(): bool
+    {
+        return $this->default;
+    }
+
+    /**
+     * @param boolean $default
+     * @return Currency
+     */
+    public function setDefault(bool $default): Currency
+    {
+        $this->default = $default;
+        return $this;
     }
 }
