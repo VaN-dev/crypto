@@ -11,7 +11,7 @@
             <div class="row">
                 {{ dump(tickers) }}
                 {% for ticker in tickers %}
-                    <div class="col-xs-12 col-sm-3">
+                    <div class="col-xs-12 col-sm-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="cc {{ ticker.pair.sourceCurrency.symbol }}"></i> {{ ticker.pair.sourceCurrency.name }} / {{ ticker.pair.targetCurrency.symbol }}</h3>
@@ -63,8 +63,7 @@
                                 {% for currency, balance in values.balances %}
                                     <li class="list-group-item">
                                         {{ currency | upper }}
-                                        <span class="pull-right">{{ balance | number_format(8, '.', ',') }}</span>
-                                        {#<span class="pull-right">{{ fund.value | number_format(8, '.', ',') }}</span>#}
+                                        <span class="pull-right">{{ balance.value | number_format(8, '.', ',') }}</span>
                                     </li>
                                 {% endfor %}
                             </ul>

@@ -51,6 +51,11 @@ services:
             - { name: app.api_client.ticker, alias: coinbase }
             - { name: app.api_client.balance, alias: coinbase }
 
+    app.market.api_client.coinmarketcap:
+            class: AppBundle\Service\Market\ApiClient\CoinmarketcapClient
+            tags:
+                - { name: app.api_client.ticker, alias: coinmarketcap }
+
     app.ticker.manager:
         class: AppBundle\Service\Ticker\TickerManager
         arguments:

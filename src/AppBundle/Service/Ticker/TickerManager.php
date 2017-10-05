@@ -4,6 +4,7 @@ namespace AppBundle\Service\Ticker;
 
 use AppBundle\Entity\Ticker;
 use AppBundle\Service\Market\ApiClient\AbstractApiClientCollection;
+use AppBundle\Service\Market\ApiClient\CoinmarketcapClient;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**

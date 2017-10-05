@@ -22,9 +22,6 @@ class DefaultController extends Controller
             $tickers = $this->get("app.ticker.manager")->getTickers();
             $balances = $this->get("app.balance.manager")->getBalances();
 
-//            dump($balances);
-//            dump($tickers);
-
             foreach ($balances as $key => &$balance) {
                 foreach ($balance["balances"] as $symbol => $value) {
                     $balance["balances"][$symbol] = [
@@ -37,9 +34,6 @@ class DefaultController extends Controller
             echo $e->getMessage();
             die();
         }
-
-//        dump($balances);
-//        die();
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
