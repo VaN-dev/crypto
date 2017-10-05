@@ -91,6 +91,15 @@ class LoadCurrencyData extends AbstractFixture implements OrderedFixtureInterfac
         ;
         $manager->persist($currency08);
 
+        $currency09 = new Currency();
+        $currency09
+            ->setName('Stellar')
+            ->setSymbol('XLM')
+            ->setIcon('XLM')
+            ->setParsable(true)
+        ;
+        $manager->persist($currency09);
+
         $manager->flush();
 
         $this->addReference('currency-euro', $currency01);
@@ -101,6 +110,7 @@ class LoadCurrencyData extends AbstractFixture implements OrderedFixtureInterfac
         $this->addReference('currency-litecoin', $currency06);
         $this->addReference('currency-bitcoincash', $currency07);
         $this->addReference('currency-monetha', $currency08);
+        $this->addReference('currency-stellar', $currency09);
     }
 
     public function getOrder()
