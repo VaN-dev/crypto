@@ -14,7 +14,7 @@ use Payward\KrakenAPI;
 class KrakenClient implements ApiClientInterface
 {
     private $_mapping = [
-        "BTC" => "XBT",
+        "BTC" => "XXBT",
     ];
 
     /**
@@ -78,10 +78,10 @@ class KrakenClient implements ApiClientInterface
         if (in_array($pair->getSourceCurrency()->getSymbol(), $this->_mapping)) {
             $source_symbol = $this->_mapping[$pair->getSourceCurrency()->getSymbol()];
         } else {
-            $source_symbol = $pair->getSourceCurrency()->getSymbol();
+            $source_symbol = "X" . $pair->getSourceCurrency()->getSymbol();
         }
 
-        return mb_strtoupper("X" . $source_symbol . "Z" . $pair->getTargetCurrency()->getSymbol());
+        return mb_strtoupper($source_symbol . "Z" . $pair->getTargetCurrency()->getSymbol());
     }
 
     /**
@@ -102,6 +102,13 @@ class KrakenClient implements ApiClientInterface
     public function getBalance()
     {
         $response = $this->client2->QueryPrivate('Balance');
+
+        foreach ($response["result"] as $k => $result) {
+            if (false !== $mapped_key = array_search($k, $this->_mapping)) {
+                $response["result"][$mapped_key] = $result;
+                unset($response["result"][$k]);
+            }
+        }
 
         return $response["result"];
     }

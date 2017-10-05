@@ -39,6 +39,7 @@ class MarketType extends AbstractType
             ->add('name')
             ->add('slug')
             ->add('enabled')
+            ->add('default')
             ->add('pairs', EntityType::class, [
                 'class' => 'AppBundle\Entity\Pair',
                 'choice_label' => function($value) {

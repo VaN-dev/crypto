@@ -59,7 +59,7 @@ class CoinmarketcapClient implements ApiClientInterface
      */
     public function formatPair(Pair $pair)
     {
-        return mb_strtolower($pair->getSourceCurrency()->getName() . "-" . mb_strtoupper($pair->getTargetCurrency()->getSymbol()));
+        return mb_strtolower(str_replace(" ", "-", $pair->getSourceCurrency()->getName()) . "/" . mb_strtoupper($pair->getTargetCurrency()->getSymbol()));
     }
 
     /**
@@ -70,12 +70,13 @@ class CoinmarketcapClient implements ApiClientInterface
     {
         $pair_str = $this->formatPair($pair);
 
-        $pair_exploded = explode("-", $pair_str);
+        $pair_exploded = explode("/", $pair_str);
 
-//        $t = (float) json_decode((string) $this->client->request("GET", "ticker/" . $pair_exploded[0] . "/?convert=" . $pair_exploded[1])->getBody())[0]->price_eur;
-//        dump($t);
-//        die();
+//        $t = (string) $this->client->request("GET", "ticker/" . $pair_exploded[0] . "/?convert=" . $pair_exploded[1])->getBody();
+//        dump("ticker/" . $pair_exploded[0] . "/?convert=" . $pair_exploded[1]);
+////
+////        return 0;
 
-        return (float) json_decode((string) $this->client->request("GET", "ticker/" . $pair_exploded[0] . "/?convert=" . $pair_exploded[1])->getBody())[0]->price_eur;
+        return (float) json_decode((string) $this->client->request("GET", "ticker/" . $pair_exploded[0] . "/?convert=" . $pair_exploded[1])->getBody())[0]->price_usd;
     }
 }

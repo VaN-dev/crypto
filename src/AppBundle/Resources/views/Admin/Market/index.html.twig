@@ -13,6 +13,7 @@
                 <th>Name</th>
                 <th>Slug</th>
                 <th>Enabled</th>
+                <th>Default</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -23,6 +24,7 @@
                     <td>{{ market.name }}</td>
                     <td>{{ market.slug }}</td>
                     <td>{{ market.enabled }}</td>
+                    <td>{{ market.default }}</td>
                     <td>
                         <a href="{{ path('admin.markets.update', {'id': market.id}) }}">edit</a> -
                         <a href="{{ path('admin.markets.delete', {'id': market.id}) }}">delete</a>

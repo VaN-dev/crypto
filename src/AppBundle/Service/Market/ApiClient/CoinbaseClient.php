@@ -76,10 +76,11 @@ class CoinbaseClient implements ApiClientInterface
 
         foreach ($accounts as $account) {
             if (0 != $account->getBalance()->getAmount()) {
-                if (!isset($output[strtolower($account->getCurrency())])) {
-                    $output[strtolower($account->getCurrency())] = (float) $account->getBalance()->getAmount();
+                $k = ($account->getCurrency());
+                if (!isset($output[$k])) {
+                    $output[$k] = (float) $account->getBalance()->getAmount();
                 } else {
-                    $output[strtolower($account->getCurrency())] += $account->getBalance()->getAmount();
+                    $output[$k] += $account->getBalance()->getAmount();
                 }
             }
         }

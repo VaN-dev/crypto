@@ -17,19 +17,44 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
         try {
-            $markets = $this->getDoctrine()->getRepository("AppBundle:Market")->findBy(["enabled" => true]);
+            $markets = $em->getRepository("AppBundle:Market")->findBy(["enabled" => true]);
             $tickers = $this->get("app.ticker.manager")->getTickers();
             $balances = $this->get("app.balance.manager")->getBalances();
 
+            $defaultTickerMarket = $em->getRepository("AppBundle:Market")->findOneBy(["default" => true]);
+            $defaultTickerClient = $this->get("app.market.api_client.ticker.collection")->getClient($defaultTickerMarket->getSlug());
+            $defaultFiatCurrency = $em->getRepository("AppBundle:Currency")->findOneBy(["default" => true]);
+
             foreach ($balances as $key => &$balance) {
+                $total = 0;
                 foreach ($balance["balances"] as $symbol => $value) {
+                    $sourceCurrency = $em->getRepository("AppBundle:Currency")->findOneBy(["symbol" => $symbol]);
+                    $pair = $em->getRepository("AppBundle:Pair")->findOneBy(["sourceCurrency" => $sourceCurrency, "targetCurrency" => $defaultFiatCurrency]);
                     $balance["balances"][$symbol] = [
                         "value" => (float) $value,
-                        "fiat_value" => 0,
                     ];
+
+                    if (null !== $pair) {
+                        $fiat_value = $balance["balances"][$symbol]["value"] * $defaultTickerClient->getTicker($pair);
+                        $balance["balances"][$symbol]["fiat_value"] = $fiat_value;
+                        $total += $fiat_value;
+                    } else {
+                        die("pair not found");
+                    }
                 }
+
+                $balance["total"] = $total;
             }
+
+            $globalBalance = $total_vat = array_sum( array_map(
+                function($balance){
+                    return $balance["total"];
+                },
+                $balances
+            ));
         } catch (\Exception $e) {
             echo $e->getMessage();
             die();
@@ -40,6 +65,7 @@ class DefaultController extends Controller
             'markets' => $markets,
             'tickers' => $tickers,
             'balances' => $balances,
+            'globalBalance' => $globalBalance,
         ]);
     }
 }

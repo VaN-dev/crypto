@@ -58,6 +58,13 @@ class Market
     private $enabled = true;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_default", type="boolean")
+     */
+    private $default = false;
+
+    /**
      * @var MarketPair[]
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\MarketPair", mappedBy="market", cascade={"persist", "remove"})
@@ -71,6 +78,14 @@ class Market
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->pairs = new ArrayCollection();
     }
 
     /**
@@ -188,22 +203,23 @@ class Market
         $this->enabled = $enabled;
         return $this;
     }
+
     /**
-     * Constructor
+     * @return bool
      */
-    public function __construct()
+    public function isDefault()
     {
-        $this->pairs = new ArrayCollection();
+        return $this->default;
     }
 
     /**
-     * Get enabled
-     *
-     * @return boolean
+     * @param bool $default
+     * @return Market
      */
-    public function getEnabled()
+    public function setDefault($default)
     {
-        return $this->enabled;
+        $this->default = $default;
+        return $this;
     }
 
     /**

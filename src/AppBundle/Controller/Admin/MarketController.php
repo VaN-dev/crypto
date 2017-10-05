@@ -40,14 +40,16 @@ class MarketController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            foreach ($request->request->get('market')['pairs'] as $pair) {
-                $marketPair = new MarketPair();
-                $marketPair
-                    ->setMarket($market)
-                    ->setPair($this->getDoctrine()->getRepository("AppBundle:Pair")->find($pair))
-                ;
+            if (isset($request->request->get('market')['pairs'])) {
+                foreach ($request->request->get('market')['pairs'] as $pair) {
+                    $marketPair = new MarketPair();
+                    $marketPair
+                        ->setMarket($market)
+                        ->setPair($this->getDoctrine()->getRepository("AppBundle:Pair")->find($pair))
+                    ;
 
-                $this->getDoctrine()->getManager()->persist($marketPair);
+                    $this->getDoctrine()->getManager()->persist($marketPair);
+                }
             }
 
             $this->getDoctrine()->getManager()->persist($market);
@@ -78,8 +80,10 @@ class MarketController extends Controller
             $posted = [];
             $original = $this->getDoctrine()->getRepository("AppBundle:Pair")->fetchPairsByMarket($market);
 
-            foreach ($request->request->get('market')['pairs'] as $pair) {
-                $posted[] = $this->getDoctrine()->getRepository("AppBundle:Pair")->find($pair);
+            if (isset($request->request->get('market')['pairs'])) {
+                foreach ($request->request->get('market')['pairs'] as $pair) {
+                    $posted[] = $this->getDoctrine()->getRepository("AppBundle:Pair")->find($pair);
+                }
             }
 
             $to_add = array_udiff($posted, $original, function ($a, $b) {

@@ -73,6 +73,24 @@ class LoadCurrencyData extends AbstractFixture implements OrderedFixtureInterfac
         ;
         $manager->persist($currency06);
 
+        $currency07 = new Currency();
+        $currency07
+            ->setName('Bitcoin Cash')
+            ->setSymbol('BCH')
+            ->setIcon('BCH')
+            ->setParsable(true)
+        ;
+        $manager->persist($currency07);
+
+        $currency08 = new Currency();
+        $currency08
+            ->setName('Monetha')
+            ->setSymbol('MTH')
+            ->setIcon('MTH')
+            ->setParsable(true)
+        ;
+        $manager->persist($currency08);
+
         $manager->flush();
 
         $this->addReference('currency-euro', $currency01);
@@ -81,6 +99,8 @@ class LoadCurrencyData extends AbstractFixture implements OrderedFixtureInterfac
         $this->addReference('currency-ripple', $currency04);
         $this->addReference('currency-ethereum', $currency05);
         $this->addReference('currency-litecoin', $currency06);
+        $this->addReference('currency-bitcoincash', $currency07);
+        $this->addReference('currency-monetha', $currency08);
     }
 
     public function getOrder()

@@ -12,6 +12,10 @@ use GuzzleHttp\ClientInterface;
  */
 class BittrexClient implements ApiClientInterface
 {
+    private $_mapping = [
+        "BCH" => "BCC",
+    ];
+
     /**
      * @var string
      */
@@ -104,7 +108,12 @@ class BittrexClient implements ApiClientInterface
 
         $balances = [];
         foreach ($response as $balance) {
-            $balances[$balance->Currency] = $balance->Balance;
+            if (false !== $mapped_key = array_search($balance->Currency, $this->_mapping)) {
+                $balances[$mapped_key] = $balance->Balance;
+            } else {
+                $balances[$balance->Currency] = $balance->Balance;
+            }
+
         }
 
 

@@ -56,3 +56,16 @@ admin.markets.update:
 admin.markets.delete:
     path:     /admin/markets/{id}/delete
     defaults: { _controller: AppBundle:Admin/Market:delete }
+
+admin.balances:
+    path:     /admin/balances
+    defaults: { _controller: AppBundle:Admin/Balance:index }
+admin.balances.create:
+    path:     /admin/balances/create
+    defaults: { _controller: AppBundle:Admin/Balance:create }
+admin.balances.update:
+    path:     /admin/balances/{id}/update
+    defaults: { _controller: AppBundle:Admin/Balance:update }
+admin.balances.delete:
+    path:     /admin/balances/{id}/delete
+    defaults: { _controller: AppBundle:Admin/Balance:delete }

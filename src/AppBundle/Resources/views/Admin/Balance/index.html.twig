@@ -1,0 +1,35 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block body %}
+    <a href="{{ path('admin.balances.create') }}" class="btn btn-primary pull-right">New balance</a>
+
+    <h1>Balances</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Currency</th>
+                <th>Market</th>
+                <th>Value</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for balance in balances %}
+                <tr>
+                    <td>{{ balance.id }}</td>
+                    <td>{{ balance.currency.symbol }}</td>
+                    <td>{{ balance.market.name }}</td>
+                    <td>{{ balance.value }}</td>
+                    <td>
+                        <a href="{{ path('admin.balances.update', {'id': balance.id}) }}">edit</a> -
+                        <a href="{{ path('admin.balances.delete', {'id': balance.id}) }}">delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
