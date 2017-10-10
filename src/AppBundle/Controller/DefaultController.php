@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\GlobalBalance;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -49,12 +50,17 @@ class DefaultController extends Controller
                 $balance["total"] = $total;
             }
 
-            $globalBalance = $total_vat = array_sum( array_map(
+            $globalBalance = (new GlobalBalance())
+            ->setValue(array_sum( array_map(
                 function($balance){
                     return $balance["total"];
                 },
                 $balances
-            ));
+            )))
+            ;
+
+            $em->persist($globalBalance);
+            $em->flush();
         } catch (\Exception $e) {
             echo $e->getMessage();
             die();
