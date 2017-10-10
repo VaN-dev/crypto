@@ -29,7 +29,7 @@ class Balance
     private $currency;
 
     /**
-     * @var string
+     * @var Market
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Market")
      */
@@ -65,14 +65,14 @@ class Balance
      * @param Currency $currency
      * @return Balance
      */
-    public function setCurrency($currency)
+    public function setCurrency(Currency $currency)
     {
         $this->currency = $currency;
         return $this;
     }
 
     /**
-     * @return string
+     * @return Market
      */
     public function getMarket()
     {
@@ -80,10 +80,10 @@ class Balance
     }
 
     /**
-     * @param string $market
+     * @param Market $market
      * @return Balance
      */
-    public function setMarket($market)
+    public function setMarket(Market $market)
     {
         $this->market = $market;
         return $this;

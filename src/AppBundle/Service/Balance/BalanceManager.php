@@ -39,6 +39,7 @@ class BalanceManager
     {
         $output = [];
 
+        // api balances
         $markets = $this->em->getRepository("AppBundle:Market")->findBy(["enabled" => true]);
 
         foreach ($markets as $market) {
@@ -59,6 +60,26 @@ class BalanceManager
             } catch (\Exception $e) {
                 dump($e->getMessage());
                 die();
+            }
+        }
+
+        // local balances
+        $localBalances = $this->em->getRepository("AppBundle:Balance")->findAll();
+
+        foreach ($localBalances as $localBalance) {
+            if (isset($output[$localBalance->getMarket()->getName()])) {
+                if (isset($output[$localBalance->getMarket()->getName()]["balances"][$localBalance->getCurrency()->getSymbol()])) {
+                    $output[$localBalance->getMarket()->getName()]["balances"][$localBalance->getCurrency()->getSymbol()] += $localBalance->getValue();
+                } else {
+                    $output[$localBalance->getMarket()->getName()]["balances"][$localBalance->getCurrency()->getSymbol()] = $localBalance->getValue();
+                }
+            } else {
+                $output[$localBalance->getMarket()->getName()] = [
+                    "market" => $localBalance->getMarket(),
+                    "balances" => [
+                        $localBalance->getCurrency()->getSymbol() => $localBalance->getValue(),
+                    ],
+                ];
             }
         }
 
