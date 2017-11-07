@@ -25,4 +25,18 @@ class PairRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @return array
+     */
+    public function fetchParsable()
+    {
+        $qb = $this->createQueryBuilder("p")
+            ->join('AppBundle\Entity\Currency', 'c1', 'WITH', 'c1 = p.sourceCurrency')
+            ->join('AppBundle\Entity\Currency', 'c2', 'WITH', 'c2 = p.targetCurrency')
+            ->where('c1.parsable = true OR c2.parsable = true')
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -39,9 +39,15 @@ class DefaultController extends Controller
                     ];
 
                     if (null !== $pair) {
-                        $fiat_value = $balance["balances"][$symbol]["value"] * $defaultTickerClient->getTicker($pair);
-                        $balance["balances"][$symbol]["fiat_value"] = $fiat_value;
-                        $total += $fiat_value;
+                        if ($pair->isParsable()) {
+                            $fiat_value = $balance["balances"][$symbol]["value"] * $defaultTickerClient->getTicker($pair);
+                            $balance["balances"][$symbol]["fiat_value"] = $fiat_value;
+                            $total += $fiat_value;
+                        } else {
+                            $fiat_value = $balance["balances"][$symbol]["value"];
+                            $balance["balances"][$symbol]["fiat_value"] = $fiat_value;
+                            $total += $fiat_value;
+                        }
                     } else {
                         throw new \Exception(sprintf("pair %s/%s not found", $symbol, $defaultFiatCurrency->getSymbol()));
                     }

@@ -60,6 +60,14 @@ class Pair
     }
 
     /**
+     * @return bool
+     */
+    public function isParsable()
+    {
+        return $this->sourceCurrency->isParsable() || $this->targetCurrency->isParsable();
+    }
+
+    /**
      * GETTERS & SETTERS
      */
 

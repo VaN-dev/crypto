@@ -41,7 +41,8 @@ class TickerManager
      */
     public function getTickers()
     {
-        $pairs = $this->em->getRepository("AppBundle:Pair")->findAll();
+        $pairs = $this->em->getRepository("AppBundle:Pair")->fetchParsable();
+
         $pairs = array_slice($pairs, 0, 10);
 
         $output = [];
@@ -55,6 +56,7 @@ class TickerManager
             $market_pairs = $this->em->getRepository("AppBundle:MarketPair")->fetchActiveMarketPairs($pair);
 
             foreach ($market_pairs as $market_pair) {
+
                 $client = $this->clientsCollection->getClient($market_pair->getMarket()->getSlug());
 
                 if (null === $client) {
@@ -62,8 +64,6 @@ class TickerManager
                 }
 
                 try {
-//                    dump($client);
-//                    dump($pair);
                     $value = $client->getTicker($pair);
 
                     $data = [
@@ -92,6 +92,7 @@ class TickerManager
                     dump($e->getMessage());
                     die();
                 }
+
             }
 
             $output[] = $entry;
