@@ -72,11 +72,6 @@ class CoinmarketcapClient implements ApiClientInterface
 
         $pair_exploded = explode("/", $pair_str);
 
-//        $t = (string) $this->client->request("GET", "ticker/" . $pair_exploded[0] . "/?convert=" . $pair_exploded[1])->getBody();
-//        dump("ticker/" . $pair_exploded[0] . "/?convert=" . $pair_exploded[1]);
-////
-////        return 0;
-
-        return (float) json_decode((string) $this->client->request("GET", "ticker/" . $pair_exploded[0] . "/?convert=" . $pair_exploded[1])->getBody())[0]->price_usd;
+        return (float) json_decode((string) $this->client->request("GET", "ticker/" . $pair_exploded[0] . "/?convert=" . $pair_exploded[1])->getBody())[0]->price_eur;
     }
 }
