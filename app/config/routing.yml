@@ -2,6 +2,10 @@ app:
     path:     /
     defaults: { _controller: AppBundle:Default:index }
 
+app.portfolio:
+    path:     /portfolio
+    defaults: { _controller: AppBundle:Portfolio:index }
+
 market.show:
     path:     /market/{market}
     defaults: { _controller: AppBundle:Market:show }
